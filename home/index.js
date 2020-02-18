@@ -1,10 +1,3 @@
-// class Tag {
-//     constructor(tag) {
-//         this.id = tag.id;
-//         this.title = tag.title;
-//     }
-// }
-
 class Mentee {
     constructor(json) {
         this.id = json.id;
@@ -24,16 +17,6 @@ class FireBaseRequest {
         )
     }
 }
-
-// class TagsView {
-//     static renderTag(tag) { }
-
-//     static render(tags) {
-//         tags.forEach(tag => {
-//             TagsView.renderTag(tag);
-//         });
-//     }
-// }
 
 class MenteesView {
     static menteesList = document.getElementById("menteesList");
@@ -56,7 +39,6 @@ class MenteesView {
                             <ul id="tagsList" class="tagsList">
                             ${tagList}
                             </ul>                              
-
                         </div>
                         <div id="info" class="col l2 m3 s12 center-align infoButton">
                             <a class="waves-effect waves-light btn white black-text infoBtn btn-large">info</a>
@@ -84,12 +66,10 @@ function run() {
             let infoButtons = document.getElementsByClassName('infoButton')
             for (let i = 0; i < infoButtons.length; i++) {
                 infoButtons[i].addEventListener('click', function showModal() {
-                    // alert(mentees[i].title)
                     const tagList = mentees[i].tags.map(tag => `
                     <li class="tag-item"><a href="">${tag}</a></li>
                     `).join('')
                     modal.innerHTML = `
-                        
                             <div class="modal-content">
                                 <h4>${mentees[i].title}</h4>
                                 <div>
@@ -105,10 +85,9 @@ function run() {
                                 <div>                              
                                 <img class="socialIcons"
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="">
-                                    </div>
+                                </div>
                                 <div class="center-align">
-                                    <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
-                                        together (:</a>
+                                    <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
                                 </div>
                             </div>
                       
