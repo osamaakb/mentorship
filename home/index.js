@@ -1,9 +1,7 @@
 class Mentee {
     constructor(json) {
-        this.id = json.id;
         this.title = json.title;
         this.location = json.location;
-        this.phone = json.phone
         this.description = json.description
         this.tags = json.tags
     }
