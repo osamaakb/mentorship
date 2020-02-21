@@ -1,0 +1,94 @@
+body,
+html {
+    font-family: 'Avenir', sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+
+/*for mobiles*/
+
+@media only screen and (max-width:576px) {
+    #landingImage {
+        width: 100% !important;
+    }
+    .btn {
+        font-size: 25px !important
+    }
+}
+
+
+/* for ipad */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    body {
+        font-size: 160%;
+    }
+    #landingImage {
+        width: 100% !important;
+    }
+    #welcome h4 {
+        font-size: 260%;
+    }
+    .btn {
+        font-size: 115% !important;
+        padding-top: 1% !important;
+        padding-bottom: 6.5% !important
+    }
+}
+
+#outerDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('./AvenirLTStd-Roman.otf') format("opentype");
+}
+
+div {
+    text-align: center;
+}
+
+#landingImage {
+    width: 65%;
+}
+
+#welcome {
+    color: rgb(249, 69, 61);
+}
+
+#welcome p {
+    font-size: 160%;
+    margin-top: 0px;
+    margin-bottom: 1%;
+}
+
+#welcome h4 {
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+#youCan {
+    font-size: 150%;
+}
+
+.btn {
+    background-color: red;
+    border-radius: 40px;
+    padding: 0 6%;
+    text-transform: none;
+    font-size: 120%;
+}
+
+#mentorBtn {
+    margin-right: 3%;
+}
+
+#lookingFor {
+    font-size: 190%;
+}
