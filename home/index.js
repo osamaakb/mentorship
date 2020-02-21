@@ -3,9 +3,14 @@
 class Members {
     constructor(json) {
         this.title = json.title;
-        this.location = json.location;
-        this.description = json.description
-        this.tags = json.tags
+        this.description = json.description;
+        this.country = json.country;
+        this.city = json.city;
+        this.start_hour = json.start_hour;
+        this.end_hour = json.end_hour;
+        this.tags = json.tags;
+        this.social_links = json.social_links;
+        this.user_email = json.user_email;
     }
 }
 // Firebase request class to fetch data for any members and map it
