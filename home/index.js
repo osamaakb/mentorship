@@ -1,39 +1,41 @@
-class Mentee {
+
+// Members class to identify mentees and mentors properties
+class Members {
     constructor(json) {
-        this.id = json.id;
         this.title = json.title;
         this.location = json.location;
-        this.phone = json.phone
         this.description = json.description
         this.tags = json.tags
     }
 }
-
+// Firebase request class to fetch data for any members and map it
 class FireBaseRequest {
-    static getMentees() {
-        let docRef = db.collection("mentees");
+    static getMembers(docRef) {
         return docRef.get().then(
-            docs => docs.docs.map(doc => new Mentee(doc.data()))
+            docs => docs.docs.map(doc => new Members(doc.data()))
         )
     }
 }
 
-class MenteesView {
-    static menteesList = document.getElementById("menteesList");
+// MembersView class renders data comes from Firebase.
+// Return data has same view structure, only texts change
+class MembersView {
+    static membersList = document.getElementById("membersList");
 
-    static renderMentee(mentee) {
-        const tagList = mentee.tags.map(tag => `
+
+    static renderMembers(member) {
+        const tagList = member.tags.map(tag => `
         <li class="tag-item"><a href="">${tag}</a></li>
         `).join('')
-        MenteesView.menteesList.insertAdjacentHTML('beforeend', `
-            <li id="menteeItem" class="list-item">
+        MembersView.membersList.insertAdjacentHTML('beforeend', `
+            <li id="memberItem" class="list-item">
                 <div class="box-content red darken-1 z-depth-3">
                     <div class="row valign-wrapper conatinerMine">
                         <div class="col l10 m9 s12">
-                            <h5 id="title">${mentee.title}</h5>
+                            <h5 id="title">${member.title}</h5>
                             <div>
                                 <i class="material-icons iconMine white-text">location_on</i>
-                                <p id="location" class="location">${mentee.location}</p>
+                                <p id="location" class="location">${member.location}</p>
                             </div>
                             <span class="tagWord">Tags</span>
                             <ul id="tagsList" class="tagsList">
@@ -50,26 +52,43 @@ class MenteesView {
         `)
     }
 
-    static render(mentees) {
-        mentees.forEach(mentee => {
-            MenteesView.renderMentee(mentee);
+    static render(members) {
+        members.forEach(member => {
+            MembersView.renderMembers(member);
         });
     }
 }
 
 function run() {
-    FireBaseRequest.getMentees()
-        .then(mentees => {
-            MenteesView.render(mentees);
 
-            let modal = document.querySelector('.modal')
-            let infoButtons = document.getElementsByClassName('infoButton')
-            for (let i = 0; i < infoButtons.length; i++) {
-                infoButtons[i].addEventListener('click', function showModal() {
-                    const tagList = mentees[i].tags.map(tag => `
+    const value = localStorage.getItem("mentee");
+
+
+    let valClick;
+
+    // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
+    if (value == 'true') {
+        let docRef = db.collection("mentees");
+        valClick = FireBaseRequest.getMembers(docRef)
+    } else {
+        let docRef = db.collection("mentors");
+        valClick = FireBaseRequest.getMembers(docRef)
+    }
+
+
+
+    // This shows rendered members in the cards.
+    valClick.then(members => {
+        MembersView.render(members);
+
+        let modal = document.querySelector('.modal')
+        let infoButtons = document.getElementsByClassName('infoButton')
+        for (let i = 0; i < infoButtons.length; i++) {
+            infoButtons[i].addEventListener('click', function showModal() {
+                const tagList = mentees[i].tags.map(tag => `
                     <li class="tag-item"><a href="">${tag}</a></li>
                     `).join('')
-                    modal.innerHTML = `
+                modal.innerHTML = `
                             <div class="modal-content">
                                 <h4>${mentees[i].title}</h4>
                                 <div>
@@ -92,10 +111,10 @@ function run() {
                             </div>
                       
                     `
-                    modalInstance.open()
-                })
+                modalInstance.open()
+            })
 
-            }
-        })
+        }
+    })
 }
 document.addEventListener("DOMContentLoaded", run);
