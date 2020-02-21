@@ -13,7 +13,8 @@ html {
         width: 100% !important;
     }
     .btn {
-        font-size: 25px !important
+        font-size: 20px !important;
+        font-weight: normal;
     }
 }
 
@@ -32,8 +33,7 @@ html {
     }
     .btn {
         font-size: 115% !important;
-        padding-top: 1% !important;
-        padding-bottom: 6.5% !important
+        font-weight: normal
     }
 }
 
@@ -47,11 +47,12 @@ html {
 
 @font-face {
     font-family: 'Avenir';
-    src: url('./AvenirLTStd-Roman.otf') format("opentype");
+    src: url('./landing_page/AvenirLTStd-Roman.otf') format("opentype");
 }
 
 div {
     text-align: center;
+    /* padding: 0.1% */
 }
 
 #landingImage {
@@ -60,6 +61,7 @@ div {
 
 #welcome {
     color: rgb(249, 69, 61);
+    margin-bottom: 3.5%;
 }
 
 #welcome p {
