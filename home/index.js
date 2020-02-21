@@ -69,21 +69,22 @@ function run() {
     const value = localStorage.getItem("mentee");
 
 
-    let valClick;
+    let isMentee;
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (value == 'true') {
-        let docRef = db.collection("mentees");
-        valClick = FireBaseRequest.getMembers(docRef)
+        memberRef = db.collection("mentees");
+        isMentee = FireBaseRequest.getMembers(memberRef)
     } else {
-        let docRef = db.collection("mentors");
-        valClick = FireBaseRequest.getMembers(docRef)
+        memberRef = db.collection("mentors");
+        isMentee = FireBaseRequest.getMembers(memberRef)
     }
 
 
 
     // This shows rendered members in the cards.
-    valClick.then(members => {
+    isMentee = FireBaseRequest.getMembers(memberRef)
+    isMentee.then(members => {
         MembersView.render(members);
 
         let modal = document.querySelector('.modal')
