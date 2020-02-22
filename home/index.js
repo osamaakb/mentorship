@@ -15,8 +15,8 @@ class Members {
 }
 // Firebase request class to fetch data for any members and map it
 class FireBaseRequest {
-    static getMembers(docRef) {
-        return docRef.get().then(
+    static getMembers(memberRef) {
+        return memberRef.get().then(
             docs => docs.docs.map(doc => new Members(doc.data()))
         )
     }
@@ -74,10 +74,8 @@ function run() {
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (value == 'true') {
         memberRef = db.collection("mentees");
-        isMentee = FireBaseRequest.getMembers(memberRef)
     } else {
         memberRef = db.collection("mentors");
-        isMentee = FireBaseRequest.getMembers(memberRef)
     }
 
 
