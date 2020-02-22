@@ -9,10 +9,19 @@ class Members {
         this.start_hour = json.start_hour;
         this.end_hour = json.end_hour;
         this.tags = json.tags;
-        this.social_links = json.social_links;
+        this.social_links = json.social_links.map(link => new SoicalLink(link));
         this.user_email = json.user_email;
     }
 }
+
+class SocialLink {
+    constructor (link){
+        this.type = link.type;
+        this.value = link.value;
+    }
+}
+
+
 // Firebase request class to fetch data for any members and map it
 class FireBaseRequest {
     static getMembers(memberRef) {
@@ -32,6 +41,8 @@ class MembersView {
         const tagList = member.tags.map(tag => `
         <li class="tag-item"><a href="">${tag}</a></li>
         `).join('')
+        
+        
         MembersView.membersList.insertAdjacentHTML('beforeend', `
             <li id="memberItem" class="list-item">
                 <div class="box-content red darken-1 z-depth-3">
@@ -40,7 +51,7 @@ class MembersView {
                             <h5 id="title">${member.title}</h5>
                             <div>
                                 <i class="material-icons iconMine white-text">location_on</i>
-                                <p id="location" class="location">${member.location}</p>
+                                <p id="location" class="location">${member.city}, ${member.country}</p>
                             </div>
                             <span class="tagWord">Tags</span>
                             <ul id="tagsList" class="tagsList">
@@ -66,13 +77,13 @@ class MembersView {
 
 function run() {
 
-    const value = localStorage.getItem("mentee");
+    const isMentee = localStorage.getItem("mentee");
 
 
-    let isMentee;
+    
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
-    if (value == 'true') {
+    if (isMentee == 'true') {
         memberRef = db.collection("mentees");
     } else {
         memberRef = db.collection("mentors");
@@ -81,10 +92,11 @@ function run() {
 
 
     // This shows rendered members in the cards.
-    isMentee = FireBaseRequest.getMembers(memberRef)
-    isMentee.then(members => {
+    FireBaseRequest.getMembers(memberRef).
+    then(members => {
         MembersView.render(members);
-
+   
+        
         let modal = document.querySelector('.modal')
         let infoButtons = document.getElementsByClassName('infoButton')
         for (let i = 0; i < infoButtons.length; i++) {
