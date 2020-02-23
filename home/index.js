@@ -84,16 +84,53 @@ function run() {
                                 <img class="socialIcons"
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="">
                                 </div>
-                                <div class="center-align">
-                                    <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
+                                <div class="center-align" id="workTo"> 
+                                    <a  class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
                                 </div>
                             </div>
-                      
                     `
                     modalInstance.open()
-                })
 
+                    // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+                    const workTo=document.getElementById("workTo");
+                    workTo.addEventListener('click',authToConnect);
+                    // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+
+                })
             }
+
         })
+
+
 }
+
 document.addEventListener("DOMContentLoaded", run);
+
+// mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+
+
+ function authToConnect() {
+        function newLoginHappened(user) {
+            if(!user)// sign in ):
+            {
+                alert("You Should be Signed In to Connect with me")
+                var provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithRedirect(provider);   
+            }
+            // user sighn in so connect with the destination
+               alert(`${user.displayName} will connect directly with me (:` )
+               connectWDistination(user);
+        }
+        firebase.auth().onAuthStateChanged(newLoginHappened);
+    }
+
+function connectWDistination(user){
+modal.innerHTML = `
+                            <div class="modal-content">
+                                <h4>${user.email}</h4>
+                            </div>
+                    `
+}
+
+// mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+
