@@ -139,11 +139,6 @@ function run() {
                 for (let i = 0; i < li.length; i++){
                     li[i].classList.remove('hidden')
                 } 
-                
-
-                // for (var i = 0; i < els.length; i++) {
-                //     els[i].classList.remove('active')
-                //   }
         
                 app(user)
             } else{
