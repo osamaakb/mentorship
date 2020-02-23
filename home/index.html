@@ -25,15 +25,17 @@
                                 class="material-icons red-text text-darken-1">menu</i></a>
                         <ul class="right hide-on-med-and-down">
                             <li><a id="mentors" href="#">Mentors</a></li>
-                            <li><a href="#">Be a Mentee</a></li>
+                            <li><a class="member-btn" href="#">Be a Mentee</a></li>
                             <li><a href="#">About us</a></li>
+                            <li class="outLi hidden"><a class="signOutBtn" href="#">Sign Out</a></li>
                         </ul>
                     </div>
                 </nav>
                 <ul class="sidenav" id="mobile-demo">
                     <li><a class="red-text text-darken-1" href="#">Mentors</a></li>
-                    <li><a class="red-text text-darken-1" href="#">Be a Mentee</a></li>
+                    <li><a class="member-btn red-text text-darken-1" href="#">Be a Mentee</a></li>
                     <li><a class="red-text text-darken-1" href="#">About us</a></li>
+                    <li class="outLi hidden"><a class="signOutBtn red-text text-darken-1" href="#">Sign Out</a></li>
                 </ul>
             </div>
             <!-- /row -->
@@ -49,6 +51,38 @@
     </div>
     <!-- /conatiner -->
 
+    <!-- /conatiner -->
+        <div class="container">
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>Modal Header</h4>
+                  <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+              </div>
+        </div>
+    <!-- /conatiner -->
+    
+
+    <!-- Modal Structure  For Sign in-->
+   <div class="container">
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <h5>Please <a href="#" id="signInBtn">Sign in</a> to continue</h5>
+            </div>
+        </div>
+   </div>
+
+    <!-- Modal Structure For Sign Out-->
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <h5>You have been signed out</a></h5>
+        </div>
+    </div>
+
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
@@ -57,6 +91,12 @@
 
         const modal = document.getElementById('modal1');
         const modalInstance = M.Modal.init(modal);
+
+        const modal2 = document.getElementById('modal2');
+        const modalInstance2 = M.Modal.init(modal2);
+
+        const modal3 = document.getElementById('modal3');
+        const modalInstance3 = M.Modal.init(modal3);
 
     </script>
 
