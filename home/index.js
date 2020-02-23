@@ -56,6 +56,9 @@ class MenteesView {
 }
 
 function run() {
+
+    login()
+   
     FireBaseRequest.getMentees()
         .then(mentees => {
             MenteesView.render(mentees);
@@ -96,4 +99,67 @@ function run() {
             }
         })
 }
+// mustafa code 
+    const signInBtn = document.getElementById('signInBtn');
+    signInBtn.addEventListener("click",  openForm);
+
+    const showSignOutBtn = document.querySelectorAll('.signOutBtn')
+    showSignOutBtn.forEach(btn => 
+        btn.addEventListener('click', logOut)
+    )
+
+    let li = document.getElementsByClassName('outLi');
+    let isLoggedIn;
+
+    const beMember = document.querySelectorAll('.member-btn')
+    beMember.forEach(btn => 
+    btn.addEventListener('click', openFormModal)
+    )
+    
+    function openFormModal() {
+        if (isLoggedIn) {
+            window.location = './test.html'
+        } else { 
+            modalInstance2.open()
+        } 
+    }
+
+    function openForm() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);               
+    }
+
+    function login() {
+        function newLoginHappened(user) {
+            if(user){
+                isLoggedIn = true
+                // if user signed in already     
+                for (let i = 0; i < li.length; i++){
+                    li[i].classList.remove('hidden')
+                } 
+                
+
+                // for (var i = 0; i < els.length; i++) {
+                //     els[i].classList.remove('active')
+                //   }
+        
+                app(user)
+            } else{
+                isLoggedIn = false
+                // sign in with redirect
+                
+            }
+        }
+        firebase.auth().onAuthStateChanged(newLoginHappened);
+    }
+    
+    function logOut() {
+        firebase.auth().signOut()
+        .then(()=> { //alert("You have been Signed Out")
+        for (let i = 0; i < li.length; i++){
+            li[i].classList.add('hidden')
+        } 
+        })
+        modalInstance3.open();
+    }
 document.addEventListener("DOMContentLoaded", run);
