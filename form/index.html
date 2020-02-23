@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- font Awesome  -->
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <!-- Compiled and CSS -->
+    <link rel="stylesheet" href="./css/materialize.css" />
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <title>Form Page</title>
+  </head>
+  <body>
+    <header>
+      <h2 class="center red-text">Mentee Form</h2>
+    </header>
+    <main>
+      <div class="container">
+        <div class="row">
+          <form action="">
+            <div class="col s12">
+              <div class="row z-depth-1">
+                <div class="input-field red-text col s12">
+                  <i class="material-icons prefix">account_circle</i>
+                  <input id="title" type="text" class="validate" maxlength="20" pattern=".{3,120}" required/>
+                  <label for="title">Title</label>
+                  <span class="helper-text" data-error="Add more Than 3 Characters" data-success=""></span>
+                </div>
+
+                <div class="input-field red-text col s12">
+                  <i class="material-icons prefix">description</i>
+                  <textarea id="description" class="materialize-textarea validate" data-length="120" required></textarea>
+                  <label for="description">Description</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+
+                </div>
+
+                <div class="input-field red-text col s12 m12">
+                  <i class="fas fa-globe-africa prefix"></i>
+                  <select id="country" class="validate" required>
+                    <option value="" disabled selected>Choose your Country</option>
+                  </select>
+                  <label>Country</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+                </div>
+
+                <div class="input-field red-text col s12">
+                  <i class="fas fa-city prefix"></i>
+                  <input id="city" type="text" class="validate" maxlength="20" pattern=".{3,20}"  required/>
+                  <label for="city">City</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+
+                </div>
+              </div>
+              <!---- ROW END ---->
+
+              <div class="row z-depth-1">
+                <div class="input-field red-text col s12">
+                  <i class="fas fa-hashtag prefix"></i>
+                  <select multiple id="tags"  required>
+                    <option value="" disabled>Choose your Tags</option>
+                  </select>
+                  <label>Tags</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+                </div>
+              </div>
+              <!---- ROW END ---->
+
+              <div class="row z-depth-1">
+                <div class="col s12">
+                  <p class="center red-text marginClass flow-text">
+                    Available Time
+                  </p>
+                </div>
+                <div class="input-field red-text col s12 m6">
+                  <i class="fas fa-hourglass-start prefix"></i>
+                  <input id="start-hour" type="text" class="timepicker"  required/>
+                  <label for="start-hour">Start Hour</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+                </div>
+                <div class="input-field red-text col s12 m6">
+                  <i class="fas fa-hourglass-end prefix"></i>
+                  <input id="end-hour" type="text" class="timepicker" required/>
+                  <label for="end-hour">End Hour</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+                </div>
+              </div>
+              <!---- ROW END ---->
+
+              <div class="row z-depth-1">
+                <div class="col s12">
+                  <p class="center red-text marginClass flow-text ">
+                    Social Media Links
+                  </p>
+                </div>
+
+                <div class="input-field red-text col s12">
+                  <i class="fab fa-github prefix"></i>
+                  <input id="github-account" type="text" class="validate" required/>
+                  <label for="github-account">Github Account</label>
+                  <span class="helper-text" data-error="wrong" data-success=""></span>
+                </div>
+
+                <div class="input-field red-text col s12">
+                  <i class="fab fa-linkedin-in prefix"></i>
+                  <input id="linkedin-account" type="text" class="validate" />
+                  <label for="linkedin-account">Linkedin Account</label>
+                </div>
+
+                <div class="input-field red-text col s12">
+                  <i class="fab fa-twitter prefix"></i>
+                  <input id="twitter-account" type="text" class="validate" />
+                  <label for="twitter-account">Tweeter Account</label>
+                </div>
+              </div>
+              <!---- ROW END ---->
+
+              <div class="row center">
+                <button
+                  id="submit"
+                  class="btn-large waves-effect waves-light myBtnStyling red"
+                  type="submit"
+                  name="action"
+                  >Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+              <!---- ROW END ---->
+            </div>
+          </form>
+        </div>
+      </div>
+      <!---- CONTAINER END ---->
+    </main>
+    <footer></footer>
+    
+    <!-- Fire Base configuration-->
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
+    <script src="../firebaseConfig.js"></script>
+
+    <!-- lists  -->
+    <script src="./js/tags.js"></script>
+    <script src="./js/countries.js"></script>
+    
+    <!-- font Awesome  -->
+    <script src="./js/all.min.js"></script>
+    
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    
+    <script src="./index.js"></script>
+
+    <script></script>
+  </body>
+</html>
