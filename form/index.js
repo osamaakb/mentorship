@@ -1,34 +1,107 @@
-document.addEventListener("DOMContentLoaded",initialTimePickers)
+document.addEventListener("DOMContentLoaded",initialMaterializeElements)
 
 document.querySelector("form").addEventListener("submit",submit)
 
-function initialTimePickers(){
+function initialMaterializeElements(){
     M.Timepicker.init(document.querySelector('#start-hour'));
     M.Timepicker.init(document.querySelector('#end-hour'));
 }
 
-function validationOfTagsAndCountry(tags,country){
-    if(!country){
-        alert("Pleas chose your Country")
-        return false
+function showErrorModal(errorType){
+    document.querySelector("#form-modal").innerHTML = `
+    <div class="modal-content">
+        <h5>Please check the ${errorType} field</h5>
+    </div>      
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
+    </div>
+    `
+
+    let modalInstance = M.Modal.init(document.getElementById('form-modal'));    
+    modalInstance.open()
+}
+
+function showProgress(state,error=null){
+    let modal = document.querySelector("#form-modal")
+    modal.innerHTML = `
+    <div class="modal-content center">
+        
+    </div>      
+    `
+    if(state === "loading"){
+        document.querySelector("#form-modal .modal-content").innerHTML = `
+        <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-red-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+      <h5>Sending information...</h5>
+      </div>
+        `
+    }else if(state === "success"){
+        document.querySelector("#form-modal .modal-content").innerHTML = `
+        <div class="modal-content">
+        <h5>Sent successfully</h5>
+    </div>      
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
+    </div>
+        `
+    }else{
+        document.querySelector("#form-modal .modal-content").innerHTML = `
+        <div class="modal-content">
+        <h5>Something Went wrong</h5>
+        <h5>Error ${error}</h5>
+    </div>      
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue big btn-flat">OK</a>
+    </div>
+        `
     }
-    if (tags.length == 0){
-        alert("Pleas chose a Tags")
+
+}
+
+function checkTheValidation(tags,country,startTime,endTime){
+    if(!country){
+        showErrorModal("Country")
+        return false
+    }else if (tags.length == 0){
+        showErrorModal("Tags")
+        return false
+    }else if (!startTime) {
+        showErrorModal("Start Time")
+        return false
+    }else if (!endTime){
+        showErrorModal("End Time")
         return false
     }
     return true 
 
 }
 
-function sendPostRequest(configurationObject){    
-    db.collection("mentees").add(configurationObject)
+function sendPostRequest(configurationObject){
+    showProgress("loading")
+    let modalInstance = M.Modal.init(document.getElementById('form-modal'));    
+    modalInstance.open()   
+    db.collection("mentors").add(configurationObject)
     .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
+        showProgress("success")
+        window.location = "../home/index.html"
     })
     .catch(function(error) {
         console.error("Error adding document: ", error);
+        showProgress("error",error)
     });
 }
+
 
 function submit(){
     event.preventDefault()
@@ -49,18 +122,10 @@ function submit(){
         {"type":"linkedin", "value":linkedinLink}
     ]    
     
-    if(validationOfTagsAndCountry(tags,country)){
+    if(checkTheValidation(tags,country,start_time,end_time)){
         const configurationObject = { title, description, country, city, tags, start_time, end_time, social_links, "userID":"817369182" }
         sendPostRequest(configurationObject)
     }
     
    
 }
-
-    /*
-    TODO
-    - Show modal if the countries or tags are empty
-    - show loader when the user clicks the submit button 
-    - show a modal with message that says your form was sent successfully or if there is an error show the error message
-    - redirect to home in case of success
-    */
