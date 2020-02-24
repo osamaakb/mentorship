@@ -3,7 +3,7 @@ docRef.get()
 .then(docs => {
     docs.docs.forEach(doc =>{
         const tag = doc.data().name
-        renderTag(tag)
+        renderTag(tag)        
     })
     initialTagsList()
 })

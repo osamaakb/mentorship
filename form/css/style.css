@@ -1,8 +1,6 @@
 @import './css/picker.css';
 
 .myBtnStyling{
-    /* width: 200px;
-    height: 70px; */
     font-size: 24px;
     border-radius: 20px ;
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- font Awesome  -->
-    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./css/brands.min.css" />
     <!-- Compiled and CSS -->
     <link rel="stylesheet" href="./css/materialize.css" />
     <!--Import Google Icon Font-->
@@ -25,13 +25,13 @@
     <main>
       <div class="container">
         <div class="row">
-          <form action="">
+          <form id="formValidate">
             <div class="col s12">
               <div class="row z-depth-1">
                 <div class="input-field red-text col s12">
                   <i class="material-icons prefix">account_circle</i>
                   <input id="title" type="text" class="validate" maxlength="20" pattern=".{3,120}" required/>
-                  <label for="title">Title</label>
+                  <label for="title">Title </label>
                   <span class="helper-text" data-error="Add more Than 3 Characters" data-success=""></span>
                 </div>
 
@@ -45,7 +45,7 @@
 
                 <div class="input-field red-text col s12 m12">
                   <i class="fas fa-globe-africa prefix"></i>
-                  <select id="country" class="validate" required>
+                  <select id="country" class="validate" >
                     <option value="" disabled selected>Choose your Country</option>
                   </select>
                   <label>Country</label>
@@ -65,7 +65,7 @@
               <div class="row z-depth-1">
                 <div class="input-field red-text col s12">
                   <i class="fas fa-hashtag prefix"></i>
-                  <select multiple id="tags"  required>
+                  <select multiple id="tags" >
                     <option value="" disabled>Choose your Tags</option>
                   </select>
                   <label>Tags</label>
@@ -82,15 +82,13 @@
                 </div>
                 <div class="input-field red-text col s12 m6">
                   <i class="fas fa-hourglass-start prefix"></i>
-                  <input id="start-hour" type="text" class="timepicker"  required/>
+                  <input id="start-hour" type="text" placeholder="hh:mm AM/PM" class="timepicker" readonly required/>
                   <label for="start-hour">Start Hour</label>
-                  <span class="helper-text" data-error="wrong" data-success=""></span>
                 </div>
                 <div class="input-field red-text col s12 m6">
                   <i class="fas fa-hourglass-end prefix"></i>
-                  <input id="end-hour" type="text" class="timepicker" required/>
+                  <input id="end-hour" type="text" placeholder="hh:mm AM/PM" class="timepicker" readonly required/>
                   <label for="end-hour">End Hour</label>
-                  <span class="helper-text" data-error="wrong" data-success=""></span>
                 </div>
               </div>
               <!---- ROW END ---->
@@ -112,13 +110,13 @@
                 <div class="input-field red-text col s12">
                   <i class="fab fa-linkedin-in prefix"></i>
                   <input id="linkedin-account" type="text" class="validate" />
-                  <label for="linkedin-account">Linkedin Account</label>
+                  <label for="linkedin-account">Linkedin Account (optional)</label>
                 </div>
 
                 <div class="input-field red-text col s12">
                   <i class="fab fa-twitter prefix"></i>
                   <input id="twitter-account" type="text" class="validate" />
-                  <label for="twitter-account">Tweeter Account</label>
+                  <label for="twitter-account">Tweeter Account (optional)</label>
                 </div>
               </div>
               <!---- ROW END ---->
