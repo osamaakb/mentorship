@@ -2,17 +2,16 @@
 class Members {
     constructor(json) {
         this.title = json.title;
+        this.id = json.userID;
         this.description = json.description;
         this.country = json.country;
         this.city = json.city;
-        this.startHour = json.start_hour;
-        this.endHour = json.end_hour;
+        this.endHour = json.end_time;
+        this.startHour = json.start_time;
         this.tags = json.tags;
-        this.socialIconLinks = json.social_links.map(link => new SocialLink(link))
-        this.user_email = json.user_email;
+        this.socialIconLinks = json.social_links;
     }
 }
-
 
 
 class SocialLink {
@@ -29,6 +28,8 @@ class FireBaseRequest {
 
         return memberRef.get().then(
             docs => docs.docs.map(doc =>
+                // console.log(doc.data())
+
                 new Members(doc.data())
             )
         )
@@ -45,6 +46,8 @@ class MembersView {
         const tagList = member.tags.map(tag => `
         <li class="tag-item"><a href="">${tag}</a></li>
         `).join('')
+
+
 
 
         MembersView.membersList.insertAdjacentHTML('beforeend', `
@@ -84,8 +87,6 @@ function run() {
     const isMentee = localStorage.getItem("mentee");
 
 
-
-
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (isMentee == 'true') {
         memberRef = db.collection("mentees");
@@ -93,28 +94,20 @@ function run() {
         memberRef = db.collection("mentors");
     }
 
-    memberRef = db.collection("mentees");
 
     // This shows rendered member in the modal card.
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
 
-
-
             let modal = document.querySelector('.modal')
             let infoButtons = document.getElementsByClassName('infoButton')
+
             for (let i = 0; i < infoButtons.length; i++) {
                 infoButtons[i].addEventListener('click', function showModal() {
                     const tagList = members[i].tags.map(tag => `
                     <li class="tag-item"><a href="">${tag}</a></li>
                     `).join('')
-
-
-                    const socialLink = members[i].socialIconLinks.map(sLink => `
-                    <li class="tag-item"><a href="">${sLink}</a></li>
-                    `).join('')
-                  
 
                     modal.innerHTML = `
                              <div class="modal-content">
@@ -129,14 +122,9 @@ function run() {
                                   <ul id="tagsList" class="tagsList">
                                      ${tagList}
                                   </ul>
-                                  <p><span class="tagWord">Avaliable Hours:</span>${members[i].startHour} - ${members[i].endHour} </p>
+                                  <p><span class="tagWord">Avaliable Hours: </span>${members[i].startHour} - ${members[i].endHour} </p>
                                   <div class="social">
                                      <p class="tagWord">Social Links:</p>
-                                     <a href="${socialLink}"><img class="socialIcons"
-                                     src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>
-                                     <a href="${socialLink}"> <img class="socialIcons"
-                                     src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
-                                     alt=""></a>
                                     </div>
                                     <div class="center-align">
                                        <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
@@ -144,6 +132,32 @@ function run() {
                                     </div>
                              </div>  
                     `
+
+
+                    let social = document.querySelector("#modal1 > div > div.social")
+
+                    const socialLinkObeject = members[i].socialIconLinks.map(links => links);
+
+                    // This part organizes social icons. if member has only github account, the only github icon is rendered on the modal.
+
+                    socialLinkObeject.forEach(socialIcon => {
+
+                        if (socialIcon.value != "") {
+                            if (socialIcon.type == "github") {
+                                social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
+                                         src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`);
+                            } if (socialIcon.type == "linkedin") {
+                                social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
+                                         src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`);
+                            } if (socialIcon.type == "twitter") {
+                                social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
+                                         src="https://pngimage.net/wp-content/uploads/2018/06/official-twitter-logo-png-3.png" alt=""> </a>`
+                                )
+                            }
+                        }
+                    })
+
+
                     modalInstance.open()
                 })
 
