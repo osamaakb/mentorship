@@ -85,13 +85,14 @@ class MembersView {
 function run() {
 
     const isMentee = localStorage.getItem("mentee");
-
+    const pageTitle = document.getElementById("pageTitle");
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (isMentee == 'true') {
         memberRef = db.collection("mentees");
     } else {
         memberRef = db.collection("mentors");
+        pageTitle.innerText = "Mentors"
     }
 
 
