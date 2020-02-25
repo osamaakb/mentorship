@@ -47,13 +47,13 @@
         <ul id="menteesList">
         </ul>
 
-        <div id="modal1" class="modal"> </div>
+        <div id="memberInfoModal" class="modal"> </div>
     </div>
     <!-- /conatiner -->
 
     <!-- /conatiner -->
         <div class="container">
-            <div id="modal1" class="modal">
+            <div id="memberInfoModal" class="modal">
                 <div class="modal-content">
                   <h4>Modal Header</h4>
                   <p>A bunch of text</p>
@@ -68,7 +68,7 @@
 
     <!-- Modal Structure  For Sign in-->
    <div class="container">
-        <div id="modal2" class="modal">
+        <div id="signInModal" class="modal">
             <div class="modal-content">
                 <h5>Please <a href="#" id="signInBtn">Sign in</a> to continue</h5>
             </div>
@@ -77,7 +77,7 @@
 
     <!-- Modal Structure For Sign Out-->
 
-    <div id="modal3" class="modal">
+    <div id="signOutModal" class="modal">
         <div class="modal-content">
             <h5>You have been signed out</a></h5>
         </div>
@@ -89,14 +89,14 @@
         let elem = document.querySelector(".sidenav");
         let instance = new M.Sidenav(elem);
 
-        const modal = document.getElementById('modal1');
-        const modalInstance = M.Modal.init(modal);
+        const memberInfoModal = document.getElementById('memberInfoModal');
+        const memberInfoModalInstance = M.Modal.init(memberInfoModal);
 
-        const modal2 = document.getElementById('modal2');
-        const modalInstance2 = M.Modal.init(modal2);
+        const signInModal = document.getElementById('signInModal');
+        const signInModalInstance = M.Modal.init(signInModal);
 
-        const modal3 = document.getElementById('modal3');
-        const modalInstance3 = M.Modal.init(modal3);
+        const signOutModal = document.getElementById('signOutModal');
+        const signOutModalInstance = M.Modal.init(signOutModal);
 
     </script>
 

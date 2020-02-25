@@ -56,9 +56,17 @@ class MenteesView {
 }
 
 function run() {
+    
+    Auth.checkUser()
 
-    login()
-   
+    NavAuthButtons()
+    
+
+    firebase.auth().getRedirectResult()
+        .then(function (result) {
+            console.log(result.user);    
+        })
+
     FireBaseRequest.getMentees()
         .then(mentees => {
             MenteesView.render(mentees);
@@ -93,68 +101,67 @@ function run() {
                             </div>
                       
                     `
-                    modalInstance.open()
+                    memberInfoModal.open()
                 })
 
             }
         })
 }
-// mustafa code 
-    const signInBtn = document.getElementById('signInBtn');
-    signInBtn.addEventListener("click",  openForm);
 
-    const showSignOutBtn = document.querySelectorAll('.signOutBtn')
-    showSignOutBtn.forEach(btn => 
-        btn.addEventListener('click', logOut)
-    )
+class Auth{    
+    static li = document.getElementsByClassName('outLi');
+    static checkUser(){
+        firebase.auth().onAuthStateChanged(function (user) {
+             if(user){
+                 // if user signed in already     
+                 for (let i = 0; i < Auth.li.length; i++){
+                     Auth.li[i].classList.remove('hidden')
+                 } 
+                 Auth.isLoggedIn = true;                
+            } else{
+                 Auth.isLoggedIn = false;
+            }
+        });
+    }
 
-    let li = document.getElementsByClassName('outLi');
-    let isLoggedIn;
-
-    const beMember = document.querySelectorAll('.member-btn')
-    beMember.forEach(btn => 
-    btn.addEventListener('click', openFormModal)
-    )
-    
-    function openFormModal() {
-        if (isLoggedIn) {
-            window.location = './test.html'
+    static openFormModal() {
+        if (Auth.isLoggedIn) {
+            window.location = './form/index.html'
         } else { 
-            modalInstance2.open()
+            signInModalInstance.open()
         } 
     }
 
-    function openForm() {
+    static directToFirebase() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);               
+        firebase.auth().signInWithRedirect(provider);
+        
+        
     }
 
-    function login() {
-        function newLoginHappened(user) {
-            if(user){
-                isLoggedIn = true
-                // if user signed in already     
-                for (let i = 0; i < li.length; i++){
-                    li[i].classList.remove('hidden')
-                } 
-        
-                app(user)
-            } else{
-                isLoggedIn = false
-                // sign in with redirect
-                
-            }
-        }
-        firebase.auth().onAuthStateChanged(newLoginHappened);
-    }
-    
-    function logOut() {
+    static signOut() {
         firebase.auth().signOut()
         .then(()=> { //alert("You have been Signed Out")
-        for (let i = 0; i < li.length; i++){
-            li[i].classList.add('hidden')
+        for (let i = 0; i < Auth.li.length; i++){
+            Auth.li[i].classList.add('hidden')
         } 
         })
-        modalInstance3.open();
+        signOutModalInstance.open();
     }
+}
+
+function NavAuthButtons() {
+    let beMember = document.querySelectorAll('.member-btn')
+    beMember.forEach(btn => 
+    btn.addEventListener('click', Auth.openFormModal))
+
+    let signInBtn = document.getElementById('signInBtn');
+    signInBtn.addEventListener("click", Auth.directToFirebase);
+
+    let showSignOutBtn = document.querySelectorAll('.signOutBtn')
+    showSignOutBtn.forEach(btn => 
+    btn.addEventListener('click', Auth.signOut))
+
+}
+
 document.addEventListener("DOMContentLoaded", run);
