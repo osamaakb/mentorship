@@ -111,7 +111,7 @@ function run() {
             MembersView.render(members);
 
 
- 
+
 
             let modal = document.querySelector('.modal')
             let infoButtons = document.getElementsByClassName('infoButton')
@@ -125,7 +125,7 @@ function run() {
                     modal.innerHTML = `
 
                              <div class="modal-content">
-                                  <h4>starting with JavaScript${members[i].title}</h4>
+                                  <h4>${members[i].title}</h4>
                                   <div>
                                   <i class="material-icons iconMine red-text">location_on</i>
                                   <p id="location" class="location">${members[i].city}, ${members[i].country}</p>
@@ -173,7 +173,7 @@ function run() {
 
                     memberInfoModalInstance.open()
 
-          
+
                 })
 
             }
