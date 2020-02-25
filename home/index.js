@@ -13,14 +13,12 @@ class Members {
     }
 }
 
-
 class SocialLink {
     constructor(link) {
         this.type = link.type;
         this.value = link.value;
     }
 }
-
 
 // Firebase request class to fetch data for any members and map it
 class FireBaseRequest {
@@ -82,6 +80,8 @@ class MembersView {
     }
 }
 
+
+
 function run() {
 
     const isMentee = localStorage.getItem("mentee");
@@ -95,11 +95,19 @@ function run() {
         pageTitle.innerText = "Mentors"
     }
 
+    Auth.checkUser()
 
-    // This shows rendered member in the modal card.
+    NavAuthButtons()
+
+    firebase.auth().getRedirectResult()
+        .then(function (result) {
+            if (result.user) { window.location = '../form/index.html' }
+        })
+
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
+
 
             let modal = document.querySelector('.modal')
             let infoButtons = document.getElementsByClassName('infoButton')
@@ -131,11 +139,10 @@ function run() {
                                        <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
                                                together (:</a>
                                     </div>
-                             </div>  
-                    `
+                             </div>  `
 
 
-                    let social = document.querySelector("#modal1 > div > div.social")
+                    let social = document.querySelector("#memberInfoModal > div > div.social")
 
                     const socialLinkObeject = members[i].socialIconLinks.map(links => links);
 
@@ -159,10 +166,66 @@ function run() {
                     })
 
 
-                    modalInstance.open()
+                    memberInfoModalInstance.open()
                 })
 
             }
         })
 }
+
+class Auth {
+    static isLoggedIn = false;
+    static li = document.getElementsByClassName('outLi');
+    static checkUser() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // if user signed in already                
+                for (let i = 0; i < Auth.li.length; i++) {
+                    Auth.li[i].classList.remove('hidden')
+                }
+                Auth.isLoggedIn = true;
+            } else {
+                Auth.isLoggedIn = false;
+            }
+        });
+    }
+
+    static openFormModal() {
+        if (Auth.isLoggedIn) {
+            window.location = '../form/index.html'
+        } else {
+            signInModalInstance.open()
+        }
+    }
+
+    static directToFirebase() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+    }
+
+    static signOut() {
+        firebase.auth().signOut()
+            .then(() => { //alert("You have been Signed Out")
+                for (let i = 0; i < Auth.li.length; i++) {
+                    Auth.li[i].classList.add('hidden')
+                }
+            })
+        signOutModalInstance.open();
+    }
+}
+
+function NavAuthButtons() {
+    let beMember = document.querySelectorAll('.member-btn')
+    beMember.forEach(btn =>
+        btn.addEventListener('click', Auth.openFormModal))
+
+    let signInBtn = document.getElementById('signInBtn');
+    signInBtn.addEventListener("click", Auth.directToFirebase);
+
+    let showSignOutBtn = document.querySelectorAll('.signOutBtn')
+    showSignOutBtn.forEach(btn =>
+        btn.addEventListener('click', Auth.signOut))
+
+}
+
 document.addEventListener("DOMContentLoaded", run);
