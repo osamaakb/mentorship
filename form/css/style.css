@@ -1,0 +1,19 @@
+@import './css/picker.css';
+
+.myBtnStyling{
+    font-size: 24px;
+    border-radius: 20px ;
+}
+
+.marginClass{
+    margin-bottom: 0;
+}
+
+.borderedRow{
+    border: solid 1px gray ;
+    border-radius: 2rem;
+}
+
+.padding-class{
+    padding-top: 16px;
+}
