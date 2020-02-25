@@ -199,9 +199,17 @@ class Auth {
         }
     }
 
-    static directToFirebase() {
+    static async directToFirebase() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
+        const result = await firebase.auth().signInWithPopup(provider);
+        // const user = await db.users.where(authUserUid: result.uid)
+        // if (!user) {
+        //   await user = db.user.create({
+        //     email: result.email,
+        //     authUserUid: result.uid,
+        //   })
+        // }
+        return result;
     }
 
     static signOut() {
@@ -214,9 +222,9 @@ class Auth {
         signOutModalInstance.open();
     }
 
-    static sendEmail() {
+    static async sendEmail() {
         if (!Auth.isLoggedIn) {
-            Auth.directToFirebase()
+            const result = await Auth.directToFirebase()
         }
         location.href = 'mailto:name@rapidtables.com'
     }
