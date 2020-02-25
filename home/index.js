@@ -1,4 +1,3 @@
-// Members class to identify mentees and mentors properties
 class Members {
     constructor(json) {
         this.title = json.title;
@@ -20,14 +19,11 @@ class SocialLink {
     }
 }
 
-// Firebase request class to fetch data for any members and map it
 class FireBaseRequest {
     static getMembers(memberRef) {
 
         return memberRef.get().then(
             docs => docs.docs.map(doc =>
-                // console.log(doc.data())
-
                 new Members(doc.data())
             )
         )
@@ -39,13 +35,10 @@ class FireBaseRequest {
 class MembersView {
     static membersList = document.getElementById("membersList");
 
-
     static renderMembers(member) {
         const tagList = member.tags.map(tag => `
         <li class="tag-item"><a href="">${tag}</a></li>
         `).join('')
-
-
 
 
         MembersView.membersList.insertAdjacentHTML('beforeend', `
@@ -212,7 +205,7 @@ class Auth {
 
     static signOut() {
         firebase.auth().signOut()
-            .then(() => { //alert("You have been Signed Out")
+            .then(() => {
                 for (let i = 0; i < Auth.li.length; i++) {
                     Auth.li[i].classList.add('hidden')
                 }
