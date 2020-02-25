@@ -1,3 +1,4 @@
+
 class Members {
     constructor(json) {
         this.title = json.title;
@@ -103,9 +104,6 @@ function run() {
         then(members => {
             MembersView.render(members);
 
-
-
-
             let modal = document.querySelector('.modal')
             let infoButtons = document.getElementsByClassName('infoButton')
 
@@ -133,12 +131,15 @@ function run() {
                                   <div class="social">
                                      <p class="tagWord">Social Links:</p>
                                     </div>
-                                    <div class="center-align">
-                                       <a class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
+                                    <div  class="center-align">
+                                       <a id="work-btn" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
                                                together (:</a>
                                     </div>
                              </div>  `
 
+
+                    let workBtn = document.querySelector('#work-btn')
+                    workBtn.addEventListener('click', Auth.sendEmail)
 
                     let social = document.querySelector("#memberInfoModal > div > div.social")
 
@@ -211,6 +212,13 @@ class Auth {
                 }
             })
         signOutModalInstance.open();
+    }
+
+    static sendEmail() {
+        if (!Auth.isLoggedIn) {
+            Auth.directToFirebase()
+        }
+        location.href = 'mailto:name@rapidtables.com'
     }
 }
 
