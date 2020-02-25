@@ -85,9 +85,9 @@ class MembersView {
 function run() {
 
 
-    const isMentee = localStorage.getItem("mentee");
+   
     const pageTitle = document.getElementById("pageTitle");
-    
+    const mentor = document.getElementById("mentors");
     const beMember = document.getElementsByClassName("beMember")[0];
     const beMemberDropdown = document.getElementsByClassName("beMember")[1];
 
@@ -103,6 +103,7 @@ function run() {
     } else {
         memberRef = db.collection("mentors");
         pageTitle.innerText = "Mentors"
+        mentor.innerText = 'Mentees'
     }
 
     Auth.checkUser()
