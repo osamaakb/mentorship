@@ -97,6 +97,9 @@ p.location {
   height: 32px;
   width: 32px;
 }
+.hidden{
+  display: none;
+}
 
 @media only screen and (max-width: 600px) {
   .valign-wrapper {

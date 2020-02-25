@@ -84,6 +84,7 @@ class MembersView {
 
 function run() {
 
+
     const isMentee = localStorage.getItem("mentee");
     const pageTitle = document.getElementById("pageTitle");
 
@@ -104,10 +105,13 @@ function run() {
             if (result.user) { window.location = '../form/index.html' }
         })
 
+
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
 
+
+ 
 
             let modal = document.querySelector('.modal')
             let infoButtons = document.getElementsByClassName('infoButton')
@@ -119,6 +123,7 @@ function run() {
                     `).join('')
 
                     modal.innerHTML = `
+
                              <div class="modal-content">
                                   <h4>starting with JavaScript${members[i].title}</h4>
                                   <div>
@@ -167,6 +172,8 @@ function run() {
 
 
                     memberInfoModalInstance.open()
+
+          
                 })
 
             }
