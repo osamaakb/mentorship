@@ -4,6 +4,10 @@ class Mentee {
         this.location = json.location;
         this.description = json.description
         this.tags = json.tags
+        //mmmmmmmmmmmmmmmmmmm
+        this.email=json.email
+        this.social_links=json.social_links
+        //mmmmmmmmmmmmmmmm
     }
 }
 
@@ -84,8 +88,8 @@ function run() {
                                 <img class="socialIcons"
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="">
                                 </div>
-                                <div class="center-align" id="workTo"> 
-                                    <a  class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
+                                <div class="center-align" > 
+                                    <a id="workTo" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
                                 </div>
                             </div>
                     `
@@ -93,7 +97,7 @@ function run() {
 
                     // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
                     const workTo=document.getElementById("workTo");
-                    workTo.addEventListener('click',authToConnect);
+                    workTo.addEventListener('click',authToConnect(mentees[i]));
                     // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
 
                 })
@@ -107,30 +111,18 @@ function run() {
 document.addEventListener("DOMContentLoaded", run);
 
 // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
-
-
- function authToConnect() {
+ function authToConnect(destination) {
         function newLoginHappened(user) {
-            if(!user)// sign in ):
+            if(!user)
             {
-                alert("You Should be Signed In to Connect with me")
+                alert(`You Should be Signed In to Connect with ${destination.title}`)
                 var provider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithRedirect(provider);   
+                firebase.auth().signInWithRedirect(provider); 
             }
-            // user sighn in so connect with the destination
-               alert(`${user.displayName} will connect directly with me (:` )
-               connectWDistination(user);
+             workTo.href=`mailto:${destination.email}?subject=Hi, I saw your profile and I want to work with you&body=Hi,I saw your profile and I want to work with you`
+             //workTo.href=`mailto:${destination.social_links[0].value}?subject=Hi, I saw your profile and I want to work with you&body=Hi,I saw your profile and I want to work with you`
         }
         firebase.auth().onAuthStateChanged(newLoginHappened);
     }
-
-function connectWDistination(user){
-modal.innerHTML = `
-                            <div class="modal-content">
-                                <h4>${user.email}</h4>
-                            </div>
-                    `
-}
-
 // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
 
