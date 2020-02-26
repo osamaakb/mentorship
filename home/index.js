@@ -9,6 +9,7 @@ class FireBaseRequest {
 }
 
 class MembersView {
+
     static membersList = document.getElementById("membersList");
 
     static renderMembers(member) {
@@ -59,7 +60,6 @@ class MembersView {
                 `).join('')
 
                 modal.innerHTML = `
-
                          <div class="modal-content">
                               <h4>${members[i].title}</h4>
                               <div>
@@ -109,18 +109,15 @@ class MembersView {
                 })
                 memberInfoModalInstance.open()
             })
-
         }
-
     }
-
 }
 
- function run() {
-    
+
+async function run() {
+
     Auth.checkUser()
-    configureTypeNavButtons()
-    configureAuthNavAuthButtons()
+    configureNavButtons()
 
     hasAmember()
     FireBaseRequest.getMembers(memberRef).
@@ -130,13 +127,38 @@ class MembersView {
         })
 }
 
-function configureAuthNavAuthButtons() {
+function configureNavButtons() {
+    const pageTitle = document.getElementById("pageTitle");
+    const type = document.getElementById("type");
     let beMember = document.querySelectorAll('.member-btn')
+
+    const navMemberSelect = document.getElementById("type");
+    const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberType = urlParams.get('type');
+    hasAmember(memberType)
+
+    // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
+    if (memberType == 'mentees') {
+        memberRef = db.collection("mentees");
+        pageTitle.innerText = "Mentees"
+        beMember[0].innerHTML = 'Be a Mentee'
+        navMemberSelect.href = "index.html?type=mentors"
+    } else {
+        memberRef = db.collection("mentors");
+        pageTitle.innerText = "Mentors"
+        type.innerText = 'Mentees'
+        beMember[0].innerHTML = 'Be a Mentor'
+        beMemberDropdown.innerHTML = 'Be a Mentor'
+        navMemberSelect.href = "index.html?type=mentees"
+    }
+
     beMember.forEach(btn =>
-        btn.addEventListener('click', Auth.openFormModal))
+        btn.addEventListener('click', () => Auth.openFormModal(memberType)))
 
     let signInBtn = document.getElementById('signInBtn');
-    signInBtn.addEventListener("click", Auth.sendToForm);
+    signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
 
     let showSignOutBtn = document.querySelectorAll('.signOutBtn')
     showSignOutBtn.forEach(btn =>
@@ -144,32 +166,11 @@ function configureAuthNavAuthButtons() {
 
 }
 
-function configureTypeNavButtons() {
-    const pageTitle = document.getElementById("pageTitle");
-    const type = document.getElementById("type");
-    const beMember = document.getElementsByClassName("beMember")[0];
-    const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+async function hasAmember(type) {
+    let menteeRef = db.collection(type)
+    let user = await Auth.getUser()
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('type');
-
-    // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
-    if (myParam == 'mentees') {
-        memberRef = db.collection("mentees");
-        pageTitle.innerText = "Mentees"
-        beMember.innerHTML = 'Be a Mentee'
-    } else {
-        memberRef = db.collection("mentors");
-        pageTitle.innerText = "Mentors"
-        type.innerText = 'Mentees'
-        beMember.innerHTML = 'Be a Mentor'
-        beMemberDropdown.innerHTML = 'Be a Mentor'
-    }
-}
-
-function hasAmember() {
-    let menteeRef = db.collection('mentors')
-    menteeRef.where("user_email",  "==", "")
+    menteeRef.where("user_email",  "==", user.email)
     .get()
     .then(querySnapshot =>{
         console.log(querySnapshot);
@@ -177,7 +178,7 @@ function hasAmember() {
         querySnapshot.forEach(doc => {
            if(doc) {
             const beMember = document.getElementsByClassName("beMember")[0];
-                beMember.innerHTML = 'my mentee'
+            beMember.innerHTML = `my ${type}`
            }
             
         })
