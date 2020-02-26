@@ -54,7 +54,7 @@ class Auth {
     static async sendToForm(type) {
         await Auth.directToFirebase()
         Auth.isLoggedIn = true;
-        window.location = `../form/index.html?type${type}`
+        window.location = `../form/index.html?type=${type}`
     }
 
     static async sendEmail() {

@@ -60,7 +60,6 @@ class MembersView {
                 `).join('')
 
                 modal.innerHTML = `
-
                          <div class="modal-content">
                               <h4>${members[i].title}</h4>
                               <div>
@@ -110,18 +109,14 @@ class MembersView {
                 })
                 memberInfoModalInstance.open()
             })
-
         }
-
     }
-
 }
 
 async function run() {
 
     Auth.checkUser()
-    configureTypeNavButtons()
-    configureAuthNavAuthButtons()
+    configureNavButtons()
 
     FireBaseRequest.getMembers(memberRef).
         then(members => {
@@ -130,11 +125,12 @@ async function run() {
         })
 }
 
-function configureAuthNavAuthButtons() {
+function configureNavButtons() {
     const pageTitle = document.getElementById("pageTitle");
     const type = document.getElementById("type");
     let beMember = document.querySelectorAll('.member-btn')
 
+    const navMemberSelect = document.getElementById("type");
     const beMemberDropdown = document.getElementsByClassName("beMember")[1];
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -145,14 +141,14 @@ function configureAuthNavAuthButtons() {
         memberRef = db.collection("mentees");
         pageTitle.innerText = "Mentees"
         beMember[0].innerHTML = 'Be a Mentee'
+        navMemberSelect.href = "index.html?type=mentors"
     } else {
         memberRef = db.collection("mentors");
         pageTitle.innerText = "Mentors"
         type.innerText = 'Mentees'
-        console.log(beMember);
-
         beMember[0].innerHTML = 'Be a Mentor'
         beMemberDropdown.innerHTML = 'Be a Mentor'
+        navMemberSelect.href = "index.html?type=mentees"
     }
 
     beMember.forEach(btn =>
@@ -165,9 +161,6 @@ function configureAuthNavAuthButtons() {
     showSignOutBtn.forEach(btn =>
         btn.addEventListener('click', Auth.signOut))
 
-}
-
-function configureTypeNavButtons() {
 }
 
 document.addEventListener("DOMContentLoaded", run);

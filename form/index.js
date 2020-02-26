@@ -2,10 +2,11 @@ document.addEventListener("DOMContentLoaded", initialMaterializeElements)
 
 document.querySelector("form").addEventListener("submit", submit)
 
+const urlParams = new URLSearchParams(window.location.search);
+const memberType = urlParams.get('type');
+
 function initialMaterializeElements() {
     const formTitle = document.getElementById('form-title')
-    const urlParams = new URLSearchParams(window.location.search);
-    const memberType = urlParams.get('type');
 
     if (memberType === 'mentees') {
         formTitle.innerText = 'Mentee Form'
@@ -100,7 +101,7 @@ function sendPostRequest(configurationObject) {
     showProgress("loading")
     let modalInstance = M.Modal.init(document.getElementById('form-modal'));
     modalInstance.open()
-    db.collection("mentors").add(configurationObject)
+    db.collection(memberType).add(configurationObject)
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
             showProgress("success")
