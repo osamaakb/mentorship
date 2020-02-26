@@ -19,7 +19,7 @@
 
 <body>
   <header>
-    <h2 class="center red-text">Mentee Form</h2>
+    <h2 id="form-title" class="center red-text"></h2>
   </header>
   <main>
     <div class="container">
@@ -79,7 +79,8 @@
               </div>
               <div class="input-field red-text col s12 m6">
                 <i class="fas fa-hourglass-start prefix"></i>
-                <input id="start-hour" type="text" class="timepicker validate" pattern="[0-9]{2}:[0-9]{2} {A-Z}" readonly required />
+                <input id="start-hour" type="text" class="timepicker validate" pattern="[0-9]{2}:[0-9]{2} {A-Z}"
+                  readonly required />
                 <label for="start-hour">Start Hour</label>
               </div>
               <div class="input-field red-text col s12 m6">
@@ -151,6 +152,8 @@
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script src="../Auth.js"></script>
 
   <script src="./index.js"></script>
 
