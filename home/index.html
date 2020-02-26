@@ -20,11 +20,11 @@
             <div class="row">
                 <nav class="transparent">
                     <div class="nav-wrapper">
-                        <a href="#!" id="pageTitle"  class="brand-logo red-text text-darken-1">Mentees</a>
+                        <a href="#!" id="pageTitle" class="brand-logo red-text text-darken-1">Mentees</a>
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
                                 class="material-icons red-text text-darken-1">menu</i></a>
                         <ul class="right hide-on-med-and-down">
-                            <li><a id="mentors" href="#">Mentors</a></li>
+                            <li><a id="type" href="#">Mentors</a></li>
                             <li><a class="member-btn beMember" href="#">Be a Mentee</a></li>
                             <li><a href="#">About us</a></li>
                             <li class="outLi hidden"><a class="signOutBtn" href="#">Sign Out</a></li>
@@ -52,28 +52,28 @@
     <!-- /conatiner -->
 
     <!-- /conatiner -->
-        <div class="container">
-            <div id="memberInfoModal" class="modal">
-                <div class="modal-content">
-                  <h4>Modal Header</h4>
-                  <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-              </div>
+    <div class="container">
+        <div id="memberInfoModal" class="modal">
+            <div class="modal-content">
+                <h4>Modal Header</h4>
+                <p>A bunch of text</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            </div>
         </div>
+    </div>
     <!-- /conatiner -->
-    
+
 
     <!-- Modal Structure  For Sign in-->
-   <div class="container">
+    <div class="container">
         <div id="signInModal" class="modal">
             <div class="modal-content">
                 <h5>Please <a href="#" id="signInBtn">Sign in</a> to continue</h5>
             </div>
         </div>
-   </div>
+    </div>
 
     <!-- Modal Structure For Sign Out-->
 
@@ -107,6 +107,10 @@
     <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
 
     <script src="../firebaseConfig.js"></script>
+
+    <script src="../Auth.js"></script>
+    <script src="../models/member.js"></script>
+    <script src="../models/socialLinks.js"></script>
 
     <script type="text/javascript" src="index.js"></script>
 
