@@ -79,15 +79,25 @@ class MembersView {
 function run() {
 
 
-    const isMentee = localStorage.getItem("mentee");
+   
     const pageTitle = document.getElementById("pageTitle");
+    const mentor = document.getElementById("mentors");
+    const beMember = document.getElementsByClassName("beMember")[0];
+    const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('type');
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
-    if (isMentee == 'true') {
+    if (myParam == 'mentees') {
         memberRef = db.collection("mentees");
+        beMember.innerHTML = 'Be a Mentor'
+        beMemberDropdown.innerHTML = 'Be a Mentor'
+
     } else {
         memberRef = db.collection("mentors");
         pageTitle.innerText = "Mentors"
+        mentor.innerText = 'Mentees'
     }
 
     Auth.checkUser()
