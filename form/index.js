@@ -2,7 +2,11 @@ document.addEventListener("DOMContentLoaded",initialMaterializeElements)
 
 document.querySelector("form").addEventListener("submit",submit)
 
-function initialMaterializeElements(){
+async function initialMaterializeElements() {  
+    let user = await Auth.getUser();
+    
+    console.log(user);
+
     M.Timepicker.init(document.querySelector('#start-hour'));
     M.Timepicker.init(document.querySelector('#end-hour'));
 }

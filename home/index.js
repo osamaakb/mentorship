@@ -116,12 +116,13 @@ class MembersView {
 
 }
 
-function run() {
-
+ function run() {
+    
     Auth.checkUser()
     configureTypeNavButtons()
     configureAuthNavAuthButtons()
 
+    hasAmember()
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
@@ -164,6 +165,23 @@ function configureTypeNavButtons() {
         beMember.innerHTML = 'Be a Mentor'
         beMemberDropdown.innerHTML = 'Be a Mentor'
     }
+}
+
+function hasAmember() {
+    let menteeRef = db.collection('mentors')
+    menteeRef.where("user_email",  "==", "")
+    .get()
+    .then(querySnapshot =>{
+        console.log(querySnapshot);
+        
+        querySnapshot.forEach(doc => {
+           if(doc) {
+            const beMember = document.getElementsByClassName("beMember")[0];
+                beMember.innerHTML = 'my mentee'
+           }
+            
+        })
+    })
 }
 
 document.addEventListener("DOMContentLoaded", run);
