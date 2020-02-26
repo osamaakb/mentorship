@@ -59,7 +59,6 @@ class MembersView {
                 `).join('')
 
                 modal.innerHTML = `
-
                          <div class="modal-content">
                               <h4>${members[i].title}</h4>
                               <div>
@@ -107,6 +106,19 @@ class MembersView {
                         }
                     }
                 })
+                let socialIconsVisibility = document.querySelectorAll("#memberInfoModal > div > div.social > a")
+
+                if (Auth.isLoggedIn == false) {
+                    socialIconsVisibility.forEach(hideIcon => hideIcon.remove())
+                }
+
+                social.insertAdjacentHTML('beforeend', `<button class="loginBtn"  onclick="signInModalInstance.open();" >Login </button>`);
+
+                let loginBtnVisibility = document.querySelector("#memberInfoModal > div > div.social > button")
+
+                if (Auth.isLoggedIn == true) {
+                    loginBtnVisibility.remove()
+                }
                 memberInfoModalInstance.open()
             })
 
@@ -148,6 +160,7 @@ function configureTypeNavButtons() {
     const type = document.getElementById("type");
     const beMember = document.getElementsByClassName("beMember")[0];
     const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+    const navMemberSelect = document.getElementById("type");
 
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('type');
@@ -157,12 +170,14 @@ function configureTypeNavButtons() {
         memberRef = db.collection("mentees");
         pageTitle.innerText = "Mentees"
         beMember.innerHTML = 'Be a Mentee'
+        navMemberSelect.href = "index.html?type=mentors"
     } else {
         memberRef = db.collection("mentors");
         pageTitle.innerText = "Mentors"
         type.innerText = 'Mentees'
         beMember.innerHTML = 'Be a Mentor'
         beMemberDropdown.innerHTML = 'Be a Mentor'
+        navMemberSelect.href = "index.html?type=mentees"
     }
 }
 

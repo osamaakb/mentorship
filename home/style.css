@@ -2,7 +2,7 @@ nav {
   box-shadow: none;
 }
 
-nav ul a {
+nav ul a,.loginBtn {
   color: #f44336;
   font-size: 15px;
 }
@@ -34,6 +34,12 @@ nav ul a {
 
 .modal-content h4, .modal-content h5, .tagWord {
   font-weight: 500;
+}
+
+.loginBtn, .loginBtn:hover {
+  font-weight: 700;
+  border: 0;
+  background: transparent;
 }
 
 .modal-content ul li a {
