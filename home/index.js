@@ -48,7 +48,6 @@ class MembersView {
         });
     }
 
-
     static renderInfoModal(members) {
         let modal = document.querySelector('.modal')
         let infoButtons = document.getElementsByClassName('infoButton')
@@ -123,11 +122,6 @@ function run() {
     configureTypeNavButtons()
     configureAuthNavAuthButtons()
 
-    firebase.auth().getRedirectResult()
-        .then(function (result) {
-            if (result.user) { window.location = '../form/index.html' }
-        })
-
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
@@ -141,7 +135,7 @@ function configureAuthNavAuthButtons() {
         btn.addEventListener('click', Auth.openFormModal))
 
     let signInBtn = document.getElementById('signInBtn');
-    signInBtn.addEventListener("click", Auth.directToFirebase);
+    signInBtn.addEventListener("click", Auth.sendToForm);
 
     let showSignOutBtn = document.querySelectorAll('.signOutBtn')
     showSignOutBtn.forEach(btn =>

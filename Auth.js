@@ -23,9 +23,10 @@ class Auth {
         }
     }
 
-    static directToFirebase() {
+    static async directToFirebase() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
+        const result = await firebase.auth().signInWithPopup(provider);
+        return result;
     }
 
     static signOut() {
@@ -38,9 +39,15 @@ class Auth {
         signOutModalInstance.open();
     }
 
-    static sendEmail() {
+    static async sendToForm() {
+        await Auth.directToFirebase()
+        Auth.isLoggedIn = true;
+        window.location = '../form/index.html'
+    }
+
+    static async sendEmail() {
         if (!Auth.isLoggedIn) {
-            Auth.directToFirebase()
+            await Auth.directToFirebase()
         }
         location.href = 'mailto:name@rapidtables.com'
     }
