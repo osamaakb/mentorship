@@ -9,6 +9,7 @@ class FireBaseRequest {
 }
 
 class MembersView {
+
     static membersList = document.getElementById("membersList");
 
     static renderMembers(member) {
@@ -116,7 +117,7 @@ class MembersView {
 
 }
 
-function run() {
+async function run() {
 
     Auth.checkUser()
     configureTypeNavButtons()
@@ -130,12 +131,35 @@ function run() {
 }
 
 function configureAuthNavAuthButtons() {
+    const pageTitle = document.getElementById("pageTitle");
+    const type = document.getElementById("type");
     let beMember = document.querySelectorAll('.member-btn')
+
+    const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberType = urlParams.get('type');
+
+    // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
+    if (memberType == 'mentees') {
+        memberRef = db.collection("mentees");
+        pageTitle.innerText = "Mentees"
+        beMember[0].innerHTML = 'Be a Mentee'
+    } else {
+        memberRef = db.collection("mentors");
+        pageTitle.innerText = "Mentors"
+        type.innerText = 'Mentees'
+        console.log(beMember);
+
+        beMember[0].innerHTML = 'Be a Mentor'
+        beMemberDropdown.innerHTML = 'Be a Mentor'
+    }
+
     beMember.forEach(btn =>
-        btn.addEventListener('click', Auth.openFormModal))
+        btn.addEventListener('click', () => Auth.openFormModal(memberType)))
 
     let signInBtn = document.getElementById('signInBtn');
-    signInBtn.addEventListener("click", Auth.sendToForm);
+    signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
 
     let showSignOutBtn = document.querySelectorAll('.signOutBtn')
     showSignOutBtn.forEach(btn =>
@@ -144,26 +168,6 @@ function configureAuthNavAuthButtons() {
 }
 
 function configureTypeNavButtons() {
-    const pageTitle = document.getElementById("pageTitle");
-    const type = document.getElementById("type");
-    const beMember = document.getElementsByClassName("beMember")[0];
-    const beMemberDropdown = document.getElementsByClassName("beMember")[1];
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const myParam = urlParams.get('type');
-
-    // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
-    if (myParam == 'mentees') {
-        memberRef = db.collection("mentees");
-        pageTitle.innerText = "Mentees"
-        beMember.innerHTML = 'Be a Mentee'
-    } else {
-        memberRef = db.collection("mentors");
-        pageTitle.innerText = "Mentors"
-        type.innerText = 'Mentees'
-        beMember.innerHTML = 'Be a Mentor'
-        beMemberDropdown.innerHTML = 'Be a Mentor'
-    }
 }
 
 document.addEventListener("DOMContentLoaded", run);

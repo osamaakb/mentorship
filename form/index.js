@@ -1,13 +1,23 @@
-document.addEventListener("DOMContentLoaded",initialMaterializeElements)
+document.addEventListener("DOMContentLoaded", initialMaterializeElements)
 
-document.querySelector("form").addEventListener("submit",submit)
+document.querySelector("form").addEventListener("submit", submit)
 
-function initialMaterializeElements(){
+function initialMaterializeElements() {
+    const formTitle = document.getElementById('form-title')
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberType = urlParams.get('type');
+
+    if (memberType === 'mentees') {
+        formTitle.innerText = 'Mentee Form'
+    } else {
+        formTitle.innerText = 'Mentor Form'
+    }
+
     M.Timepicker.init(document.querySelector('#start-hour'));
     M.Timepicker.init(document.querySelector('#end-hour'));
 }
 
-function showErrorModal(errorType){
+function showErrorModal(errorType) {
     document.querySelector("#form-modal").innerHTML = `
     <div class="modal-content">
         <h5>Please check the ${errorType} field</h5>
@@ -17,18 +27,18 @@ function showErrorModal(errorType){
     </div>
     `
 
-    let modalInstance = M.Modal.init(document.getElementById('form-modal'));    
+    let modalInstance = M.Modal.init(document.getElementById('form-modal'));
     modalInstance.open()
 }
 
-function showProgress(state,error=null){
+function showProgress(state, error = null) {
     let modal = document.querySelector("#form-modal")
     modal.innerHTML = `
     <div class="modal-content center">
         
     </div>      
     `
-    if(state === "loading"){
+    if (state === "loading") {
         document.querySelector("#form-modal .modal-content").innerHTML = `
         <div class="preloader-wrapper big active">
         <div class="spinner-layer spinner-red-only">
@@ -45,7 +55,7 @@ function showProgress(state,error=null){
       <h5>Sending information...</h5>
       </div>
         `
-    }else if(state === "success"){
+    } else if (state === "success") {
         document.querySelector("#form-modal .modal-content").innerHTML = `
         <div class="modal-content">
         <h5>Sent successfully</h5>
@@ -54,7 +64,7 @@ function showProgress(state,error=null){
         <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
     </div>
         `
-    }else{
+    } else {
         document.querySelector("#form-modal .modal-content").innerHTML = `
         <div class="modal-content">
         <h5>Something Went wrong</h5>
@@ -68,44 +78,44 @@ function showProgress(state,error=null){
 
 }
 
-function checkTheValidation(tags,country,startTime,endTime){
-    if(!country){
+function checkTheValidation(tags, country, startTime, endTime) {
+    if (!country) {
         showErrorModal("Country")
         return false
-    }else if (tags.length == 0){
+    } else if (tags.length == 0) {
         showErrorModal("Tags")
         return false
-    }else if (!startTime) {
+    } else if (!startTime) {
         showErrorModal("Start Time")
         return false
-    }else if (!endTime){
+    } else if (!endTime) {
         showErrorModal("End Time")
         return false
     }
-    return true 
+    return true
 
 }
 
-function sendPostRequest(configurationObject){
+function sendPostRequest(configurationObject) {
     showProgress("loading")
-    let modalInstance = M.Modal.init(document.getElementById('form-modal'));    
-    modalInstance.open()   
+    let modalInstance = M.Modal.init(document.getElementById('form-modal'));
+    modalInstance.open()
     db.collection("mentors").add(configurationObject)
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        showProgress("success")
-        window.location = "../home/index.html"
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-        showProgress("error",error)
-    });
+        .then(function (docRef) {
+            console.log("Document written with ID: ", docRef.id);
+            showProgress("success")
+            window.location = "../home/index.html"
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+            showProgress("error", error)
+        });
 }
 
 
-function submit(){
+async function submit() {
     event.preventDefault()
-    
+
     const title = document.querySelector("#title").value
     const description = document.querySelector("#description").value
     const country = M.FormSelect.init(document.querySelector("#country")).getSelectedValues()[0];
@@ -117,15 +127,18 @@ function submit(){
     const linkedinLink = document.querySelector("#linkedin-account").value
     const twitterLink = document.querySelector("#twitter-account").value
     const social_links = [
-        {"type": "github", "value":githubLink},
-        {"type": "twitter", "value":twitterLink},
-        {"type":"linkedin", "value":linkedinLink}
-    ]    
-    
-    if(checkTheValidation(tags,country,start_time,end_time)){
-        const configurationObject = { title, description, country, city, tags, start_time, end_time, social_links, "userID":"817369182" }
+        { "type": "github", "value": githubLink },
+        { "type": "twitter", "value": twitterLink },
+        { "type": "linkedin", "value": linkedinLink }
+    ]
+    let user = await Auth.getUser()
+    const user_name = user.displayName;
+    const user_email = user.email;
+
+    if (checkTheValidation(tags, country, start_time, end_time)) {
+        const configurationObject = { title, description, country, city, tags, start_time, end_time, social_links, user_email, user_name }
         sendPostRequest(configurationObject)
     }
-    
-   
+
+
 }

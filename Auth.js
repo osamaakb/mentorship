@@ -15,9 +15,21 @@ class Auth {
         });
     }
 
-    static openFormModal() {
+    static getUser() {
+        return new Promise((resolve, reject) =>
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    return resolve(user);
+                } else {
+                    return resolve(null);
+                }
+            })
+        );
+    }
+
+    static openFormModal(type) {
         if (Auth.isLoggedIn) {
-            window.location = '../form/index.html'
+            window.location = `../form/index.html?type=${type}`
         } else {
             signInModalInstance.open()
         }
@@ -39,10 +51,10 @@ class Auth {
         signOutModalInstance.open();
     }
 
-    static async sendToForm() {
+    static async sendToForm(type) {
         await Auth.directToFirebase()
         Auth.isLoggedIn = true;
-        window.location = '../form/index.html'
+        window.location = `../form/index.html?type${type}`
     }
 
     static async sendEmail() {
