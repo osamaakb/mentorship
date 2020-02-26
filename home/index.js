@@ -90,6 +90,7 @@ function run() {
     const mentor = document.getElementById("mentors");
     const beMember = document.getElementsByClassName("beMember")[0];
     const beMemberDropdown = document.getElementsByClassName("beMember")[1];
+    const navMemberSelect = document.querySelector("#mentors");
 
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('type');
@@ -99,11 +100,13 @@ function run() {
         memberRef = db.collection("mentees");
         beMember.innerHTML = 'Be a Mentor'
         beMemberDropdown.innerHTML = 'Be a Mentor'
+        navMemberSelect.href = "index.html?type=mentors"
 
     } else {
         memberRef = db.collection("mentors");
         pageTitle.innerText = "Mentors"
         mentor.innerText = 'Mentees'
+        navMemberSelect.href = "index.html?type=mentees"
     }
 
     Auth.checkUser()
