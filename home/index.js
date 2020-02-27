@@ -107,6 +107,19 @@ class MembersView {
                         }
                     }
                 })
+                let socialIconsVisibility = document.querySelectorAll("#memberInfoModal > div > div.social > a")
+
+                if (Auth.isLoggedIn == false) {
+                    socialIconsVisibility.forEach(hideIcon => hideIcon.remove())
+                }
+
+                social.insertAdjacentHTML('beforeend', `<button class="loginBtn"  onclick="signInModalInstance.open();" >Login </button>`);
+
+                let loginBtnVisibility = document.querySelector("#memberInfoModal > div > div.social > button")
+
+                if (Auth.isLoggedIn == true) {
+                    loginBtnVisibility.remove()
+                }
                 memberInfoModalInstance.open()
             })
         }

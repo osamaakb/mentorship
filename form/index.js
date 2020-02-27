@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", initialMaterializeElements)
+document.addEventListener("DOMContentLoaded", run)
 
 document.querySelector("form").addEventListener("submit", submit)
 
 const urlParams = new URLSearchParams(window.location.search);
 const memberType = urlParams.get('type');
 
-function initialMaterializeElements() {
+function run() {
     const formTitle = document.getElementById('form-title')
 
     if (memberType === 'mentees') {
@@ -105,7 +105,7 @@ function sendPostRequest(configurationObject) {
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
             showProgress("success")
-            window.location = "../home/index.html"
+            window.location = `../home/index.html?type=${memberType}`
         })
         .catch(function (error) {
             console.error("Error adding document: ", error);
