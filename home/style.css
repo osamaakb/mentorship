@@ -2,9 +2,22 @@ nav {
   box-shadow: none;
 }
 
-nav ul a {
+/* nav ul a {
   color: #f44336;
   font-size: 15px;
+} */
+
+nav ul a,
+.loginBtn {
+  color: #f44336;
+  font-size: 15px;
+}
+
+.loginBtn,
+.loginBtn:hover {
+  font-weight: 700;
+  border: 0;
+  background: transparent;
 }
 
 .box-content {
@@ -21,7 +34,9 @@ nav ul a {
   padding-bottom: 8px;
 }
 
-.box-content h5, .box-content p, .box-content span {
+.box-content h5,
+.box-content p,
+.box-content span {
   color: #fff;
 }
 
@@ -32,7 +47,9 @@ nav ul a {
   padding: 5px;
 }
 
-.modal-content h4, .modal-content h5, .tagWord {
+.modal-content h4,
+.modal-content h5,
+.tagWord {
   font-weight: 500;
 }
 
@@ -57,7 +74,7 @@ nav ul a {
   display: inline-block;
 }
 
-.tag-item+.tag-item {
+.tag-item + .tag-item {
   margin-left: 4px;
 }
 
@@ -78,7 +95,7 @@ p.location {
   display: flex;
 }
 
-.social a{
+.social a {
   margin-left: 2%;
 }
 
@@ -97,7 +114,7 @@ p.location {
   height: 32px;
   width: 32px;
 }
-.hidden{
+.hidden {
   display: none;
 }
 
