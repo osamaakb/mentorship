@@ -1,13 +1,15 @@
 class Auth {
     static isLoggedIn = false;
+    static currentUser =null;
     static li = document.getElementsByClassName('outLi');
     static checkUser() {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                // if user signed in already                
+                // if user signed in already    
                 for (let i = 0; i < Auth.li.length; i++) {
                     Auth.li[i].classList.remove('hidden')
                 }
+                Auth.currentUser = user;
                 Auth.isLoggedIn = true;
             } else {
                 Auth.isLoggedIn = false;
@@ -63,4 +65,19 @@ class Auth {
         }
         location.href = 'mailto:name@rapidtables.com'
     }
+    static getUser(){
+        return new Promise((resolve, reject) => {
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                  return  resolve(user)
+                } else {
+                  return  resolve(null)
+                }
+            });
+
+        })
+        
+    }
+    
 }

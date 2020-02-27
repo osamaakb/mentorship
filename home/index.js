@@ -113,11 +113,13 @@ class MembersView {
     }
 }
 
+
 async function run() {
 
     Auth.checkUser()
     configureNavButtons()
 
+    hasAmember()
     FireBaseRequest.getMembers(memberRef).
         then(members => {
             MembersView.render(members);
@@ -135,6 +137,7 @@ function configureNavButtons() {
 
     const urlParams = new URLSearchParams(window.location.search);
     const memberType = urlParams.get('type');
+    hasAmember(memberType)
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (memberType == 'mentees') {
@@ -161,6 +164,25 @@ function configureNavButtons() {
     showSignOutBtn.forEach(btn =>
         btn.addEventListener('click', Auth.signOut))
 
+}
+
+async function hasAmember(type) {
+    let menteeRef = db.collection(type)
+    let user = await Auth.getUser()
+
+    menteeRef.where("user_email",  "==", user.email)
+    .get()
+    .then(querySnapshot =>{
+        console.log(querySnapshot);
+        
+        querySnapshot.forEach(doc => {
+           if(doc) {
+            const beMember = document.getElementsByClassName("beMember")[0];
+            beMember.innerHTML = `my ${type}`
+           }
+            
+        })
+    })
 }
 
 document.addEventListener("DOMContentLoaded", run);

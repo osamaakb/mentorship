@@ -14,6 +14,11 @@ function initialMaterializeElements() {
         formTitle.innerText = 'Mentor Form'
     }
 
+async function initialMaterializeElements() {  
+    let user = await Auth.getUser();
+    
+    console.log(user);
+
     M.Timepicker.init(document.querySelector('#start-hour'));
     M.Timepicker.init(document.querySelector('#end-hour'));
 }
@@ -142,4 +147,4 @@ async function submit() {
     }
 
 
-}
+}}
