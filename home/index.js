@@ -133,6 +133,8 @@ async function run() {
 
     FireBaseRequest.getMembers(memberRef).
         then(members => {
+            console.log(members);
+
             MembersView.render(members);
             MembersView.renderInfoModal(members)
         })

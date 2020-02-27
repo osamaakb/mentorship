@@ -9,5 +9,7 @@ class Member {
         this.startHour = json.start_time;
         this.tags = json.tags;
         this.socialIconLinks = json.social_links;
+        this.user_email = json.user_email;
+        this.user_name = json.user_name;
     }
 }
