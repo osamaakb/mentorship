@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+=======
+class Mentee {
+    constructor(json) {
+        this.title = json.title;
+        this.location = json.location;
+        this.description = json.description
+        this.tags = json.tags
+        //mmmmmmmmmmmmmmmmmmm
+        this.email=json.email
+        this.social_links=json.social_links
+        //mmmmmmmmmmmmmmmm
+    }
+}
+
+>>>>>>> f115ba02fcc5d46f8abe0960801202bb616d00d2
 class FireBaseRequest {
     static getMembers(memberRef) {
         return memberRef.get().then(
@@ -78,6 +94,7 @@ console.log(members);
                               <div class="social">
                                  <p class="tagWord">Social Links:</p>
                                 </div>
+<<<<<<< HEAD
                                 <div  class="center-align">
                                    <a id="work-btn" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
                                            together (:</a>
@@ -201,9 +218,29 @@ async function run() {
 
             MembersView.render(members);
             MembersView.renderInfoModal(members)
+=======
+                                <div class="center-align" > 
+                                    <a id="workTo" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
+                                </div>
+                            </div>
+                    `
+                    modalInstance.open()
+
+                    // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+                    const workTo=document.getElementById("workTo");
+                    workTo.addEventListener('click',authToConnect(mentees[i]));
+                    // mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+
+                })
+            }
+
+>>>>>>> f115ba02fcc5d46f8abe0960801202bb616d00d2
         })
+
+
 }
 
+<<<<<<< HEAD
 function configureNavButtons() {
     const pageTitle = document.getElementById("pageTitle");
     const type = document.getElementById("type");
@@ -243,3 +280,23 @@ function configureNavButtons() {
 }
 
 document.addEventListener("DOMContentLoaded", run);
+=======
+document.addEventListener("DOMContentLoaded", run);
+
+// mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+ function authToConnect(destination) {
+        function newLoginHappened(user) {
+            if(!user)
+            {
+                alert(`You Should be Signed In to Connect with ${destination.title}`)
+                var provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithRedirect(provider); 
+            }
+             workTo.href=`mailto:${destination.email}?subject=Hi, I saw your profile and I want to work with you&body=Hi,I saw your profile and I want to work with you`
+             //workTo.href=`mailto:${destination.social_links[0].value}?subject=Hi, I saw your profile and I want to work with you&body=Hi,I saw your profile and I want to work with you`
+        }
+        firebase.auth().onAuthStateChanged(newLoginHappened);
+    }
+// mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm //
+
+>>>>>>> f115ba02fcc5d46f8abe0960801202bb616d00d2
