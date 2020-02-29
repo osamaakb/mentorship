@@ -42,7 +42,7 @@ class MembersView {
     }
 
     static render(members) {
-console.log(members);
+        console.log(members);
 
         localStorage.setItem('changeForm', false);
 
@@ -50,7 +50,6 @@ console.log(members);
             MembersView.renderMembers(member);
         });
     }
-
     static renderInfoModal(members) {
         let modal = document.querySelector('.modal')
         let infoButtons = document.getElementsByClassName('infoButton')
@@ -193,6 +192,7 @@ console.log(members);
 async function run() {
 
     Auth.checkUser()
+    filterUser()
     configureNavButtons()
 
     FireBaseRequest.getMembers(memberRef).
@@ -202,6 +202,8 @@ async function run() {
             MembersView.render(members);
             MembersView.renderInfoModal(members)
         })
+
+
 }
 
 function configureNavButtons() {
@@ -241,5 +243,22 @@ function configureNavButtons() {
         btn.addEventListener('click', Auth.signOut))
 
 }
+async function filterUser(){
+    let user = await Auth.getUser()
+    console.log(user.email)
+    db.collection(user.emai).where(user_email, "==", true)
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+    console.log(x)
+}
+
 
 document.addEventListener("DOMContentLoaded", run);
