@@ -146,6 +146,8 @@ p.location {
     top: 5px;
     margin-left: 5px;
     cursor: pointer;
+    color: red;
+    text-shadow: 1px 1px 1px #ccc;
 }
 
 .penIcon {

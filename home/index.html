@@ -85,36 +85,50 @@
             </h5>
         </div>
     </div>
+    <!-- Modal Structure For Delete Confirmation-->
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        let elem = document.querySelector(".sidenav");
-        let instance = new M.Sidenav(elem);
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content">
+            <a id="delBtn" class="waves-effect waves-light btn-large">Delete</a>
+            <a href="#!" class="modal-close waves-effect waves-light btn-large">Cancel</a> </div>
 
-        const memberInfoModal = document.getElementById('memberInfoModal');
-        const memberInfoModalInstance = M.Modal.init(memberInfoModal);
+    </div>
 
-        const signInModal = document.getElementById('signInModal');
-        const signInModalInstance = M.Modal.init(signInModal);
+    <!-- Modal Structure For Deleted Alert-->
+    <div id="deleteAlertModal" class="modal">
+        <div class="modal-content">
+            <h4>Succesfully Deleted</h4>
+        </div>
 
-        const signOutModal = document.getElementById('signOutModal');
-        const signOutModalInstance = M.Modal.init(signOutModal);
-    </script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            let elem = document.querySelector(".sidenav");
+            let instance = new M.Sidenav(elem);
+
+            const memberInfoModal = document.getElementById('memberInfoModal');
+            const memberInfoModalInstance = M.Modal.init(memberInfoModal);
+
+            const signInModal = document.getElementById('signInModal');
+            const signInModalInstance = M.Modal.init(signInModal);
+
+            const signOutModal = document.getElementById('signOutModal');
+            const signOutModalInstance = M.Modal.init(signOutModal);
+        </script>
 
 
-    <!-- fire base config -->
+        <!-- fire base config -->
 
-    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
 
-    <script src="../firebaseConfig.js"></script>
+        <script src="../firebaseConfig.js"></script>
 
-    <script src="../Auth.js"></script>
-    <script src="../models/member.js"></script>
-    <script src="../models/socialLinks.js"></script>
+        <script src="../Auth.js"></script>
+        <script src="../models/member.js"></script>
+        <script src="../models/socialLinks.js"></script>
 
-    <script type="text/javascript" src="index.js"></script>
+        <script type="text/javascript" src="index.js"></script>
 
 
 
