@@ -196,6 +196,7 @@ function configureNavButtons() {
     const memberType = urlParams.get('type');
 
 
+
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
     if (memberType == 'mentees') {
         memberRef = db.collection("mentees");
@@ -211,8 +212,9 @@ function configureNavButtons() {
         navMemberSelect.href = "index.html?type=mentees"
     }
 
-    beMember.forEach(btn =>
-        btn.addEventListener('click', () => Auth.openFormModal(memberType)))
+    beMember.forEach(btn => {
+        btn.addEventListener('click', () => Auth.openFormModal(memberType))
+    })
 
     let signInBtn = document.getElementById('signInBtn');
     signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
@@ -221,8 +223,31 @@ function configureNavButtons() {
     showSignOutBtn.forEach(btn =>
         btn.addEventListener('click', Auth.signOut))
 
-    // isMemberBefore(memberType)
-
+    isMemberBefore(memberType)
 
 }
+
+async function isMemberBefore(type) {
+    let user = await Auth.getUser()
+    let memberRef = db.collection(type)
+    memberRef.where("user_email", "==", user.email)
+        .get()
+        .then(querySnapshot => {
+            if (querySnapshot.docs.length != 0) {
+                let beMember = document.querySelectorAll('.member-btn')
+                beMember.forEach(btn => {
+                    btn.innerHTML = `My ${type.substring(0, type.length - 1)}`
+                    btn.removeEventListener('click', () => Auth.openFormModal(memberType))
+                    btn.addEventListener('click', () => MembersView.showModal(new Member(querySnapshot.docs[0].data(), querySnapshot.docs[0].id)))
+                })
+            }
+        }
+        )
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+}
+
+
+
 document.addEventListener("DOMContentLoaded", run);

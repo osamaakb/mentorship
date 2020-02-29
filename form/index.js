@@ -28,6 +28,10 @@ function setFieldsValues(user) {
     const twitter = user.socialIconLinks.find(el => el.type === 'twitter').value
     const linkedin = user.socialIconLinks.find(el => el.type === 'linkedin').value
 
+    user.tags.forEach(tag =>
+        document.querySelector("#tags").insertAdjacentHTML("beforeend", `<option value="${tag}" selected>${tag}</option>`)
+    )
+
     document.querySelector("#title").value = user.title
     document.querySelector("#country").value = user.country
     document.querySelector("#description").value = user.description
@@ -46,8 +50,7 @@ function showErrorModal(errorType) {
     </div>      
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
-    </div> 
-    `;
+    </div> `;
 
     let modalInstance = M.Modal.init(document.getElementById("form-modal"));
     modalInstance.open();
