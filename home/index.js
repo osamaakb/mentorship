@@ -192,7 +192,17 @@ class MembersView {
 async function run() {
 
     Auth.checkUser()
-    filterUser()
+    //filterUser()
+
+    //async checkRelationship ({ auth }) {
+        
+       // const menus = await Auth.checkUser(Auth.getUser());
+    
+       // console.log(menus) 
+        
+    //}
+
+    
     configureNavButtons()
 
     FireBaseRequest.getMembers(memberRef).
@@ -202,8 +212,25 @@ async function run() {
             MembersView.render(members);
             MembersView.renderInfoModal(members)
         })
-
-
+        // console.log(Auth.isLoggedIn)
+        // if(Auth.isLoggedIn){
+            let user = await Auth.getUser()
+            // console.log("menus") 
+            console.log(user.email)
+            // console.log("menus") 
+            db.collection("mentors").where(user_email, "==", user.email)
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                });
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+            console.log(x)
+        // }
 }
 
 function configureNavButtons() {
@@ -244,20 +271,7 @@ function configureNavButtons() {
 
 }
 async function filterUser(){
-    let user = await Auth.getUser()
-    console.log(user.email)
-    db.collection(user.emai).where(user_email, "==", true)
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
-    console.log(x)
+    
 }
 
 
