@@ -1,6 +1,7 @@
 nav {
-  box-shadow: none;
+    box-shadow: none;
 }
+
 
 /* nav ul a {
   color: #f44336;
@@ -9,117 +10,153 @@ nav {
 
 nav ul a,
 .loginBtn {
-  color: #f44336;
-  font-size: 15px;
+    color: #f44336;
+    font-size: 15px;
 }
 
 .loginBtn,
 .loginBtn:hover {
-  font-weight: 700;
-  border: 0;
-  background: transparent;
+    font-weight: 700;
+    border: 0;
+    background: transparent;
 }
 
 .box-content {
-  border-radius: 20px;
-  padding: 10px;
+    border-radius: 20px;
+    padding: 10px;
 }
 
 .conatinerMine {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .box-content h5 {
-  font-weight: 500;
-  padding-bottom: 8px;
+    font-weight: 500;
+    padding-bottom: 8px;
 }
 
 .box-content h5,
 .box-content p,
 .box-content span {
-  color: #fff;
+    color: #fff;
 }
 
 .box-content ul li a {
-  color: black;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 5px;
+    color: black;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .modal-content h4,
 .modal-content h5,
 .tagWord {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .modal-content ul li a {
-  color: white;
-  background-color: #f44336;
-  border-radius: 5px;
-  padding: 5px;
+    color: white;
+    background-color: #f44336;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .modal-content .tagsList {
-  padding: 0px;
+    padding: 0px;
 }
 
 .tagsList {
-  display: inline-block;
-  margin-left: 5px;
-  padding: 15px 0px 20px 0px;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 15px 0px 20px 0px;
 }
 
 .tag-item {
-  display: inline-block;
+    display: inline-block;
 }
 
-.tag-item + .tag-item {
-  margin-left: 4px;
+.tag-item+.tag-item {
+    margin-left: 4px;
 }
 
 .list-item {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 p.location {
-  display: inline-block;
-  font-size: 18px;
-  padding: 0;
-  margin: 0;
-  margin-left: 5px;
-  vertical-align: middle;
+    display: inline-block;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    vertical-align: middle;
 }
 
 .social {
-  display: flex;
+    display: flex;
 }
 
 .social a {
-  margin-left: 2%;
+    margin-left: 2%;
 }
 
 .iconMine {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .infoBtn {
-  border-radius: 20px;
-  height: 44px;
-  line-height: 45px;
+    border-radius: 20px;
+    height: 44px;
+    line-height: 45px;
 }
 
 .socialIcons {
-  margin-top: 8px;
-  height: 32px;
-  width: 32px;
+    margin-top: 8px;
+    height: 32px;
+    width: 32px;
 }
+
 .hidden {
-  display: none;
+    display: none !important;
 }
 
 @media only screen and (max-width: 600px) {
-  .valign-wrapper {
-    display: block;
-  }
+    .valign-wrapper {
+        display: block;
+    }
+}
+
+
+/* 
+@media only screen and (max-width: 605px) {
+    .trashIcon {
+        font-size: 25px;
+        position: absolute;
+        right: 10px;
+    }
+    .penIcon {
+        position: absolute;
+        right: 15px;
+    }
+} */
+
+.trashIcon {
+    font-size: 25px;
+    position: absolute;
+    top: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.penIcon {
+    font-size: 28px;
+    cursor: pointer;
+    /* margin-right: 5%; */
+}
+
+#iconSpan {
+    position: absolute;
+    left: auto;
+    right: 60px;
+    /* margin-left: 40%; */
 }
