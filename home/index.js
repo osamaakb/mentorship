@@ -195,6 +195,8 @@ function configureNavButtons() {
     const urlParams = new URLSearchParams(window.location.search);
     const memberType = urlParams.get('type');
 
+    const title = document.getElementById('page_title')
+    title.innerText = memberType
 
 
     // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
