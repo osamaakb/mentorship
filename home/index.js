@@ -192,16 +192,6 @@ class MembersView {
 async function run() {
 
     Auth.checkUser()
-    //filterUser()
-
-    //async checkRelationship ({ auth }) {
-        
-       // const menus = await Auth.checkUser(Auth.getUser());
-    
-       // console.log(menus) 
-        
-    //}
-
     
     configureNavButtons()
 
@@ -211,28 +201,27 @@ async function run() {
 
             MembersView.render(members);
             MembersView.renderInfoModal(members)
+            
         })
-        // console.log(Auth.isLoggedIn)
-        // if(Auth.isLoggedIn){
-            let user = await Auth.getUser()
-            // console.log("menus") 
-            console.log(user.email)
-            // console.log("menus") 
-            db.collection("mentors").where(user_email, "==", user.email)
-            .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
-            })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            });
-            console.log(x)
-        // }
-}
 
+}
+async function isMemberBefore(type) {
+    let user = await Auth.getUser()
+    let memberRef = db.collection(type)
+    memberRef.where("user_email", "==", user.email)
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                if (doc) {
+                    const beMember = document.getElementsByClassName("beMember")[0];
+                    beMember.innerHTML = `my ${type}`
+                }
+            });
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error);
+        });
+    }
 function configureNavButtons() {
     const pageTitle = document.getElementById("pageTitle");
     const type = document.getElementById("type");
@@ -264,15 +253,12 @@ function configureNavButtons() {
 
     let signInBtn = document.getElementById('signInBtn');
     signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
+    isMemberBefore(memberType)
 
     let showSignOutBtn = document.querySelectorAll('.signOutBtn')
     showSignOutBtn.forEach(btn =>
         btn.addEventListener('click', Auth.signOut))
 
 }
-async function filterUser(){
-    
-}
-
 
 document.addEventListener("DOMContentLoaded", run);
