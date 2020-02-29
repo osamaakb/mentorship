@@ -20,10 +20,10 @@ function run() {
 
 if (localStorage.getItem("changeForm") === "true") {
     const user = JSON.parse(localStorage.getItem("user"));
+    setFieldsValues(user)
+}
 
-    console.log(user.tags[0]);
-    console.log(user);
-
+function setFieldsValues(user) {
     const github = user.socialIconLinks.find(el => el.type === 'github').value
     const twitter = user.socialIconLinks.find(el => el.type === 'twitter').value
     const linkedin = user.socialIconLinks.find(el => el.type === 'linkedin').value
@@ -32,7 +32,6 @@ if (localStorage.getItem("changeForm") === "true") {
     document.querySelector("#country").value = user.country
     document.querySelector("#description").value = user.description
     document.querySelector("#city").value = user.city
-        // document.querySelector("#tags").value = user.tags
     document.querySelector("#start-hour").value = user.startHour
     document.querySelector("#end-hour").value = user.endHour
     document.querySelector("#github-account").value = github
@@ -47,7 +46,7 @@ function showErrorModal(errorType) {
     </div>      
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
-    </div>
+    </div> 
     `;
 
     let modalInstance = M.Modal.init(document.getElementById("form-modal"));
@@ -57,8 +56,7 @@ function showErrorModal(errorType) {
 function showProgress(state, error = null) {
     let modal = document.querySelector("#form-modal");
     modal.innerHTML = `
-    <div class="modal-content center">
-        
+    <div class="modal-content center">        
     </div>      
     `;
     if (state === "loading") {
@@ -79,27 +77,22 @@ function showProgress(state, error = null) {
       </div>
         `;
     } else if (state === "success") {
-        document.querySelector("#form-modal .modal-content").innerHTML = `
-        <div class="modal-content">
-        <h5>Sent successfully</h5>
-    </div>      
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
-    </div>
+        document.querySelector("#form-modal .modal-content").innerHTML = `       
+    <h5>Sent successfully</h5>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-blue btn-flat">OK</a>
+        </div>
         `;
     } else {
-        document.querySelector("#form-modal .modal-content").innerHTML = `
-        <div class="modal-content">
-        <h5>Something Went wrong</h5>
-        <h5>Error ${error}</h5>
-    </div>      
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-blue big btn-flat">OK</a>
-    </div>
+        document.querySelector("#form-modal .modal-content").innerHTML = `       
+    <h5>Something Went wrong</h5>
+    <h5>Error ${error}</h5>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-blue big btn-flat">OK</a>
+        </div>
         `;
     }
 }
-
 
 function checkTheValidation(tags, country, startTime, endTime) {
     if (!country) {
@@ -128,12 +121,11 @@ function sendUpdateRequest(configurationObject) {
     db.collection(memberType)
         .doc(user.doc_id)
         .set(configurationObject)
-        .then(function(docRef) {
+        .then(function (docRef) {
             showProgress("success");
             window.location = `../home/index.html?type=${memberType}`;
         })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
+        .catch(function (error) {
             showProgress("error", error);
         });
 }
@@ -144,13 +136,11 @@ function sendPostRequest(configurationObject) {
     modalInstance.open();
     db.collection(memberType)
         .add(configurationObject)
-        .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+        .then(function (docRef) {
             showProgress("success");
             window.location = `../home/index.html?type=${memberType}`;
         })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
+        .catch(function (error) {
             showProgress("error", error);
         });
 }

@@ -1,14 +1,14 @@
 class FireBaseRequest {
     static getMembers(memberRef) {
         return memberRef.get().then(
-            docs => docs.docs.map(doc =>   
-              new Member(doc.data(), doc.id)            
-        ))
+            docs => docs.docs.map(doc =>
+                new Member(doc.data(), doc.id)
+            ))
     }
 }
 
 class MembersView {
-    
+
     static membersList = document.getElementById("membersList");
 
     static renderMembers(member) {
@@ -42,8 +42,6 @@ class MembersView {
     }
 
     static render(members) {
-console.log(members);
-
         localStorage.setItem('changeForm', false);
 
         members.forEach(member => {
@@ -84,19 +82,19 @@ console.log(members);
                                 </div>
                          </div>  `
 
-                        let trash = document.querySelector('.trashIcon')
+                let trash = document.querySelector('.trashIcon')
 
-                        trash.addEventListener('click', function() {
-                            db.collection(memberType).doc(members[i].doc_id).delete()
-                            .then(function(docRef) {
-                                alert('Title: ' + members[i].title + ' DELETED')
-                                window.location = `./index.html?type=${memberType}`;
-                            })
-                            .catch(function(error) {
-                                console.error("Error adding document: ", error);
-                            });
-                            
+                trash.addEventListener('click', function () {
+                    db.collection(memberType).doc(members[i].doc_id).delete()
+                        .then(function (docRef) {
+                            alert('Title: ' + members[i].title + ' DELETED')
+                            window.location = `./index.html?type=${memberType}`;
                         })
+                        .catch(function (error) {
+                            console.error("Error adding document: ", error);
+                        });
+
+                })
 
 
                 let workBtn = document.querySelector('#work-btn')
@@ -104,23 +102,23 @@ console.log(members);
 
                 let social = document.querySelector("#memberInfoModal > div > div.social")
 
-                const socialLinkObeject = members[i].socialIconLinks.map(links => links);
+                const socialLinksObject = members[i].socialIconLinks.map(links => links);
                 const socialLinks = {}
                 // This part organizes social icons. if member has only github account, the only github icon is rendered on the modal.
-                socialLinkObeject.forEach(socialIcon => {
-                
+                socialLinksObject.forEach(socialIcon => {
+
                     if (socialIcon.value != "") {
                         if (socialIcon.type == "github") {
-                            socialLinks['github']=socialIcon.value
+                            socialLinks['github'] = socialIcon.value
                             social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
                                      src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`);
                         } if (socialIcon.type == "linkedin") {
-                            socialLinks['linkedin']=(socialIcon.value)
+                            socialLinks['linkedin'] = (socialIcon.value)
 
                             social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
                                      src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`);
                         } if (socialIcon.type == "twitter") {
-                            socialLinks['twitter']=(socialIcon.value)
+                            socialLinks['twitter'] = (socialIcon.value)
 
                             social.insertAdjacentHTML('beforeend', `<a href="${socialIcon.value}"><img class="socialIcons"
                                      src="https://pngimage.net/wp-content/uploads/2018/06/official-twitter-logo-png-3.png" alt=""> </a>`
@@ -130,9 +128,6 @@ console.log(members);
 
 
                 })
-
-                console.log(socialLinks);
-                
 
                 let socialIconsVisibility = document.querySelectorAll("#memberInfoModal > div > div.social > a")
 
@@ -149,41 +144,25 @@ console.log(members);
                 }
                 memberInfoModalInstance.open()
 
-
                 let icons = document.getElementsByClassName('iconKaan')
-                        if (Auth.isLoggedIn ) {
-                            let userEmail = JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyAQmIYmYmq2OXM1zuJanex1paJpXJp3ZXc:[DEFAULT]')).email
-                            if (userEmail === members[i].user_email ) {
-                                for (let index = 0; index < icons.length; index++) {                                 
-                                    icons[index].classList.remove('hidden')
-                                }}
-                            }
+                if (Auth.isLoggedIn) {
+                    let userEmail = JSON.parse(localStorage.getItem('firebase:authUser:AIzaSyAQmIYmYmq2OXM1zuJanex1paJpXJp3ZXc:[DEFAULT]')).email
+                    if (userEmail === members[i].user_email) {
+                        for (let index = 0; index < icons.length; index++) {
+                            icons[index].classList.remove('hidden')
+                        }
+                    }
+                }
 
-                        
-                        let editIcon = icons[0]
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const memberType = urlParams.get('type');
-                             
-                        editIcon.addEventListener('click', () => {     
-                            localStorage.setItem('changeForm', true);
+                let editIcon = icons[0]
+                const urlParams = new URLSearchParams(window.location.search);
+                const memberType = urlParams.get('type');
 
-                            localStorage.setItem('user', JSON.stringify(members[i]))
-                            
-
-
-
-                            // localStorage.setItem('title',members[i].title)
-                            // localStorage.setItem('city',members[i].city)
-                            // localStorage.setItem('country',members[i].country)
-                            // localStorage.setItem('description',members[i].description)
-                            // localStorage.setItem('tagList',members[i].tags.map(tag =>tag).join(' '))
-                            // localStorage.setItem('startHour',members[i].startHour)
-                            // localStorage.setItem('endHour',members[i].endHour)
-                            // localStorage.setItem('socialLinks',JSON.stringify(socialLinks))
-                            
-                            
-                            Auth.openFormModal(memberType)
-                        })
+                editIcon.addEventListener('click', () => {
+                    localStorage.setItem('changeForm', true);
+                    localStorage.setItem('user', JSON.stringify(members[i]))
+                    Auth.openFormModal(memberType)
+                })
 
             })
         }
