@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="style.css" />
     <!-- fontawesome icons -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="shortcut icon" type="image/png" href="images/coding.png">
+
     <title id="page_title">Mentees</title>
 </head>
 
@@ -28,7 +30,7 @@
                         <ul class="right hide-on-med-and-down">
                             <li><a id="type" href="#">Mentors</a></li>
                             <li><a class="member-btn beMember" href="#">Be a Mentee</a></li>
-                            <li><a href="#">About us</a></li>
+                            <li><a class="about-btn" href="#">About us</a></li>
                             <li class="outLi hidden"><a class="signOutBtn" href="#">Sign Out</a></li>
                         </ul>
                     </div>
@@ -36,7 +38,7 @@
                 <ul class="sidenav" id="mobile-demo">
                     <li><a class="red-text text-darken-1" href="#">Mentors</a></li>
                     <li><a class="member-btn red-text text-darken-1 beMember" href="#">Be a Mentee</a></li>
-                    <li><a class="red-text text-darken-1" href="#">About us</a></li>
+                    <li><a class="red-text text-darken-1 about-btn" href="#">About us</a></li>
                     <li class="outLi hidden"><a class="signOutBtn red-text text-darken-1" href="#">Sign Out</a></li>
                 </ul>
             </div>
@@ -49,97 +51,135 @@
         <ul id="membersList">
         </ul>
 
-        <div id="memberInfoModal" class="modal"> </div>
-    </div>
-    <!-- /conatiner -->
+        <div id="circularProgress" class="center">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- /conatiner -->
-    <div class="container">
-        <div id="memberInfoModal" class="modal">
+        <div>
+            <div id="memberInfoModal" class="modal"> </div>
+        </div>
+        <!-- /conatiner -->
+
+        <!-- /conatiner -->
+        <div class="container">
+            <div id="memberInfoModal" class="modal">
+                <div class="modal-content">
+                    <h4>Modal Header</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
+        </div>
+        <!-- /conatiner -->
+
+
+        <!-- Modal Structure  For Sign in-->
+        <div class="container">
+            <div id="signInModal" class="modal">
+                <div class="modal-content">
+                    <h5>Please <a href="#" id="signInBtn">Sign in</a> to continue</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Structure For Sign Out-->
+
+        <div id="signOutModal" class="modal">
             <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                <h5>You have been signed out</a>
+                </h5>
             </div>
         </div>
-    </div>
-    <!-- /conatiner -->
+        <!-- Modal Structure For Delete Confirmation-->
 
-
-    <!-- Modal Structure  For Sign in-->
-    <div class="container">
-        <div id="signInModal" class="modal">
+        <div id="deleteConfirmModal" class="modal">
             <div class="modal-content">
-                <h5>Please <a href="#" id="signInBtn">Sign in</a> to continue</h5>
+                <h5>Are you sure you want to delete this?</h5>
+                <div class="modal-footer">
+                    <a id="delBtn" class="waves-effect waves-light btn-large red">Delete</a>
+                    <a href="#!" class="modal-close waves-effect waves-light btn-large red">Cancel</a>
+                </div>
             </div>
+
         </div>
-    </div>
 
-    <!-- Modal Structure For Sign Out-->
 
-    <div id="signOutModal" class="modal">
-        <div class="modal-content">
-            <h5>You have been signed out</a>
-            </h5>
-        </div>
-    </div>
-    <!-- Modal Structure For Delete Confirmation-->
-
-    <div id="deleteConfirmModal" class="modal">
-        <div class="modal-content">
-            <h5>Are you sure you want to delete this?</h5>
-            <div class="modal-footer">
-                <a id="delBtn" class="waves-effect waves-light btn-large red">Delete</a>
-                <a href="#!" class="modal-close waves-effect waves-light btn-large red">Cancel</a>
+        <div class="modal" id="aboutModal">
+            <div class="modal-content center">
+                <h5>This is a website to conect mentors and mentees together and spread the knowledge</h3>
+                    <br>
+                    <h6>Made with ❤️ by the devs <a href="https://www.re-coded.com/">@recoded</a></h6>
             </div>
         </div>
 
-    </div>
+        <!-- Modal Structure For Deleted Alert-->
+        <div id="deleteAlertModal" class="modal">
+            <div class="modal-content">
+                <h5>Succesfully Deleted</h5>
+            </div>
 
-    <!-- Modal Structure For Deleted Alert-->
-    <div id="deleteAlertModal" class="modal">
-        <div class="modal-content">
-            <h5>Succesfully Deleted</h5>
-        </div>
+            <!-- Compiled and minified JavaScript -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            <script>
+                let elem = document.querySelector(".sidenav");
+                let instance = new M.Sidenav(elem);
 
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script>
-            let elem = document.querySelector(".sidenav");
-            let instance = new M.Sidenav(elem);
+                const memberInfoModal = document.getElementById('memberInfoModal');
+                const memberInfoModalInstance = M.Modal.init(memberInfoModal);
 
-            const memberInfoModal = document.getElementById('memberInfoModal');
-            const memberInfoModalInstance = M.Modal.init(memberInfoModal);
+                const signInModal = document.getElementById('signInModal');
+                const signInModalInstance = M.Modal.init(signInModal);
 
-            const signInModal = document.getElementById('signInModal');
-            const signInModalInstance = M.Modal.init(signInModal);
+                const signOutModal = document.getElementById('signOutModal');
+                const signOutModalInstance = M.Modal.init(signOutModal);
 
-            const signOutModal = document.getElementById('signOutModal');
-            const signOutModalInstance = M.Modal.init(signOutModal);
+                const deleteAlertModal = document.getElementById("deleteAlertModal");
+                const deleteAlertInstance = M.Modal.init(deleteAlertModal);
 
-            const deleteAlertModal = document.getElementById("deleteAlertModal");
-            const deleteAlertInstance = M.Modal.init(deleteAlertModal);
+                const deleteModal = document.getElementById("deleteConfirmModal");
+                const deleteModalInstance = M.Modal.init(deleteModal);
 
-            const deleteModal = document.getElementById("deleteConfirmModal");
-            const deleteModalInstance = M.Modal.init(deleteModal);
+                const aboutModal = document.getElementById("aboutModal");
+                const aboutModalInstance = M.Modal.init(aboutModal);
 
-        </script>
+                const urlParams = new URLSearchParams(window.location.search);
+                const memberType = urlParams.get("type");
+                let oppositeMember = "mentees"
+
+                if (memberType === "mentees") {
+                    oppositeMember = "mentors"
+                }
 
 
-        <!-- fire base config -->
+            </script>
 
-        <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
 
-        <script src="../firebaseConfig.js"></script>
+            <!-- fire base config -->
 
-        <script src="../Auth.js"></script>
-        <script src="../models/member.js"></script>
-        <script src="../models/socialLinks.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
 
-        <script type="text/javascript" src="index.js"></script>
+            <script src="../firebaseConfig.js"></script>
+
+            <script src="../Auth.js"></script>
+            <script src="../models/member.js"></script>
+            <script src="../models/socialLinks.js"></script>
+
+            <script type="text/javascript" src="index.js"></script>
 
 
 

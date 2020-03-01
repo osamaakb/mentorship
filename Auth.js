@@ -57,10 +57,10 @@ class Auth {
         window.location = `../form/index.html?type=${type}`
     }
 
-    static async sendEmail() {
+    static async sendEmail(member) {
         if (!Auth.isLoggedIn) {
             await Auth.directToFirebase()
         }
-        location.href = 'mailto:name@rapidtables.com'
+        location.href = `mailto:${member.user_email}`
     }
 }

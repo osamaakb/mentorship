@@ -7,18 +7,14 @@ class FireBaseRequest {
 }
 
 class MembersView {
-  static membersList = document.getElementById("membersList");
-
   static renderMembers(member) {
+    let membersList = document.getElementById("membersList");
     const tagList = member.tags
-      .map(
-        tag => `
-        <li class="tag-item"><a href="">${tag}</a></li>
-        `
-      )
+      .map(tag =>
+        `<li class="tag-item"><a href="">${tag}</a></li>`)
       .join("");
 
-    MembersView.membersList.insertAdjacentHTML(
+    membersList.insertAdjacentHTML(
       "beforeend",
       `
             <li id="memberItem" class="list-item">
@@ -47,7 +43,7 @@ class MembersView {
   }
 
   static render(members) {
-    localStorage.setItem("changeForm", false);
+    localStorage.setItem("updateForm", false);
 
     members.forEach(member => {
       MembersView.renderMembers(member);
@@ -66,84 +62,55 @@ class MembersView {
 
   static showModal(member) {
     let modal = document.querySelector("#memberInfoModal");
-    const tagList = member.tags
-      .map(
-        tag => `
-        <li class="tag-item"><a href="">${tag}</a></li>
-        `
-      )
-      .join("");
+    const tagList = member.tags.map(tag =>
+      `<li class="tag-item"><a href="">${tag}</a></li>`).join("");
 
     modal.innerHTML = `
-                 <div class="modal-content">
-                      <h4>${member.title}<span id='iconSpan'><i class="iconKaan penIcon hidden material-icons">mode_edit</i><i class="iconKaan trashIcon hidden fas fa-trash"></i></span></h4>
-                      <div>
-                          <i class="material-icons iconMine red-text">location_on</i>
-                          <p id="location" class="location">${member.city}, ${member.country}</p>
-                      </div>
-                      <h5>Description</h5>
-                      <p> ${member.description}</p>
-                      <span class="tagWord">Tags</span>
-                      <ul id="tagsList" class="tagsList">
-                         ${tagList}
-                      </ul>
-                      <p><span class="tagWord">Avaliable Hours: </span>${member.startHour} - ${member.endHour} </p>
-                      <div class="social">
-                         <p class="tagWord">Social Links:</p>
-                        </div>
-                        <div  class="center-align">
-                           <a id="work-btn" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work
-                                   together (:</a>
-                        </div>
-                 </div>  `;
+                  <div class="modal-content">
+                      <h4>${member.title}
+                      <span id='iconSpan'>
+                      <i class="edit-Icons penIcon hidden material-icons">mode_edit</i> 
+                      <i class="edit-Icons trashIcon hidden fas fa-trash"></i></span>
+                      </h4>
+                  <div>
+                      <i class="material-icons iconMine red-text">location_on</i>
+                      <p id="location" class="location">${member.city}, ${member.country}</p>
+                  </div>
+                  <h5>Description</h5>
+                  <p> ${member.description}</p>
+                  <span class="tagWord">Tags</span>
+                  <ul id="tagsList" class="tagsList">
+                      ${tagList}
+                  </ul>
+                  <p><span class="tagWord">Avaliable Hours: </span>${member.startHour} - ${member.endHour} </p>
+                  <div class="social">
+                      <p class="tagWord">Social Links:</p>
+                  </div>
+                  <div class="center-align">
+                      <a id="mail-btn" class="waves-effect waves-light btn red white-text infoBtn btn-large center-align">let's work together (:</a>
+                  </div>
+              </div> `;
 
     let trash = document.querySelector(".trashIcon");
+    trash.addEventListener("click", MembersView.deleteMember)
 
-    trash.addEventListener("click", function () {
-      deleteModalInstance.open();
-
-      let delBtn = document.getElementById("delBtn");
-      delBtn.addEventListener("click", function () {
-
-        db.collection(memberType)
-          .doc(member.doc_id)
-          .delete()
-          .then(function (docRef) {
-            deleteAlertInstance.open();
-            window.location = `./index.html?type=${memberType}`;
-          })
-          .catch(function (error) {
-            console.error("Error adding document: ", error);
-          });
-      });
-    });
-
-    let workBtn = document.querySelector("#work-btn");
-    workBtn.addEventListener("click", Auth.sendEmail);
+    let mailBtn = document.querySelector("#mail-btn");
+    mailBtn.addEventListener("click", () => Auth.sendEmail(member));
 
     let social = document.querySelector("#memberInfoModal > div > div.social");
-
-    const socialLinksObject = member.socialIconLinks.map(links => links);
-    const socialLinks = {};
-    // This part organizes social icons. if member has only github account, the only github icon is rendered on the modal.
-    socialLinksObject.forEach(socialIcon => {
+    member.socialIconLinks.forEach(socialIcon => {
       if (socialIcon.value != "") {
         if (socialIcon.type == "github") {
-          socialLinks["github"] = socialIcon.value;
           social.insertAdjacentHTML(
-            "beforeend",
-            `<a href="${socialIcon.value}"><img class="socialIcons" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`
+            "beforeend", `<a href="${socialIcon.value}"><img class="socialIcons" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`
           );
         }
         if (socialIcon.type == "linkedin") {
-          socialLinks["linkedin"] = socialIcon.value;
           social.insertAdjacentHTML(
-            "beforeend",
-            `<a href="${socialIcon.value}"><img class="socialIcons" src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`);
+            "beforeend", `<a href="${socialIcon.value}"><img class="socialIcons" src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`);
         }
 
         if (socialIcon.type == "twitter") {
-          socialLinks["twitter"] = socialIcon.value;
           social.insertAdjacentHTML(
             "beforeend", `<a href="${socialIcon.value}"><img class="socialIcons" src="https://pngimage.net/wp-content/uploads/2018/06/official-twitter-logo-png-3.png" alt=""> </a>`);
         }
@@ -165,13 +132,10 @@ class MembersView {
     }
     memberInfoModalInstance.open();
 
-    let icons = document.getElementsByClassName("iconKaan");
+    let icons = document.getElementsByClassName("edit-Icons");
     if (Auth.isLoggedIn) {
       let userEmail = JSON.parse(
-        localStorage.getItem(
-          "firebase:authUser:AIzaSyAQmIYmYmq2OXM1zuJanex1paJpXJp3ZXc:[DEFAULT]"
-        )
-      ).email;
+        localStorage.getItem("firebase:authUser:AIzaSyAQmIYmYmq2OXM1zuJanex1paJpXJp3ZXc:[DEFAULT]")).email;
       if (userEmail === member.user_email) {
         for (let index = 0; index < icons.length; index++) {
           icons[index].classList.remove("hidden");
@@ -180,13 +144,30 @@ class MembersView {
     }
 
     let editIcon = icons[0];
-    const urlParams = new URLSearchParams(window.location.search);
-    const memberType = urlParams.get("type");
 
     editIcon.addEventListener("click", () => {
-      localStorage.setItem("changeForm", true);
+      localStorage.setItem("updateForm", true);
+      console.log(member);
+
       localStorage.setItem("user", JSON.stringify(member));
       Auth.openFormModal(memberType);
+    });
+  }
+
+  static deleteMember() {
+    deleteModalInstance.open();
+    let delBtn = document.getElementById("delBtn");
+    delBtn.addEventListener("click", function () {
+      db.collection(memberType)
+        .doc(member.doc_id)
+        .delete()
+        .then(function (docRef) {
+          deleteAlertInstance.open();
+          window.location = `./index.html?type=${memberType}`;
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
     });
   }
 }
@@ -195,40 +176,36 @@ async function run() {
   Auth.checkUser();
   configureNavButtons();
 
+  const progrss = document.getElementById('circularProgress')
   FireBaseRequest.getMembers(memberRef).then(members => {
+    progrss.classList.add('hidden')
     MembersView.render(members);
     MembersView.renderInfoModal(members);
   });
 }
 
 function configureNavButtons() {
+
+  const aboutButtons = document.querySelectorAll('.about-btn')
+  aboutButtons.forEach(btn => {
+    btn.addEventListener('click', () => aboutModalInstance.open())
+  })
+
   const pageTitle = document.getElementById("pageTitle");
   const type = document.getElementById("type");
   let beMember = document.querySelectorAll(".member-btn");
 
-  const navMemberSelect = document.getElementById("type");
   const beMemberDropdown = document.getElementsByClassName("beMember")[1];
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const memberType = urlParams.get("type");
 
   const title = document.getElementById("page_title");
   title.innerText = memberType;
 
-  // make a func to set the texts
-  if (memberType == "mentees") {
-    memberRef = db.collection("mentees");
-    pageTitle.innerText = "Mentees";
-    beMember[0].innerHTML = "Be a Mentee";
-    navMemberSelect.href = "index.html?type=mentors";
-  } else {
-    memberRef = db.collection("mentors");
-    pageTitle.innerText = "Mentors";
-    type.innerText = "Mentees";
-    beMember[0].innerHTML = "Be a Mentor";
-    beMemberDropdown.innerHTML = "Be a Mentor";
-    navMemberSelect.href = "index.html?type=mentees";
-  }
+  memberRef = db.collection(memberType);
+  pageTitle.innerText = memberType;
+  type.innerText = oppositeMember;
+  beMember[0].innerHTML = `Be a ${memberType, memberType.substring(0, memberType.length - 1)}`;
+  beMemberDropdown.innerHTML = `Be a ${memberType}`;
+  type.href = `index.html?type=${oppositeMember}`;
 
   let signInBtn = document.getElementById("signInBtn");
   signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
@@ -242,29 +219,28 @@ function configureNavButtons() {
 async function isMemberBefore(type) {
   let user = await Auth.getUser();
   let memberRef = db.collection(type);
-  memberRef
-    .where("user_email", "==", user.email)
-    .get()
-    .then(querySnapshot => {
-      let beMember = document.querySelectorAll(".member-btn");
-      if (querySnapshot.docs.length != 0) {
-        beMember.forEach(btn => {
-          btn.innerHTML = `My ${type.substring(0, type.length - 1)}`;
-          // btn.removeEventListener("click", () => Auth.openFormModal(memberType));
-          btn.addEventListener("click", () => MembersView.showModal(
-            new Member(querySnapshot.docs[0].data(), querySnapshot.docs[0].id)
-          )
-          );
-        });
-      } else {
-        beMember.forEach(btn => {
-          btn.addEventListener("click", () => Auth.openFormModal(memberType));
-        });
-      }
-    })
-    .catch(function (error) {
-      console.log("Error getting documents: ", error);
+  let beMember = document.querySelectorAll(".member-btn");
+
+  if (user) {
+    memberRef.where("user_email", "==", user.email)
+      .get()
+      .then(querySnapshot => {
+        if (querySnapshot.docs.length != 0) {
+          beMember.forEach(btn => {
+            btn.innerHTML = `My ${type.substring(0, type.length - 1)}`;
+            // btn.removeEventListener("click", () => Auth.openFormModal(memberType));
+            btn.addEventListener("click", () => MembersView.showModal(
+              new Member(querySnapshot.docs[0].data(), querySnapshot.docs[0].id)
+            )
+            );
+          });
+        }
+      })
+  } else {
+    beMember.forEach(btn => {
+      btn.addEventListener("click", () => Auth.openFormModal(memberType));
     });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", run);

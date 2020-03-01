@@ -18,7 +18,7 @@ function run() {
   M.Timepicker.init(document.querySelector("#end-hour"));
 }
 
-if (localStorage.getItem("changeForm") === "true") {
+if (localStorage.getItem("updateForm") === "true") {
   const user = JSON.parse(localStorage.getItem("user"));
   setFieldsValues(user);
 }
@@ -26,17 +26,11 @@ if (localStorage.getItem("changeForm") === "true") {
 function setFieldsValues(user) {
   const github = user.socialIconLinks.find(el => el.type === "github").value;
   const twitter = user.socialIconLinks.find(el => el.type === "twitter").value;
-  const linkedin = user.socialIconLinks.find(el => el.type === "linkedin")
-    .value;
+  const linkedin = user.socialIconLinks.find(el => el.type === "linkedin").value;
 
   user.tags.forEach(tag =>
-    document
-      .querySelector("#tags")
-      .insertAdjacentHTML(
-        "beforeend",
-        `<option value="${tag}" selected>${tag}</option>`
-      )
-  );
+    document.querySelector("#tags").insertAdjacentHTML("beforeend", `<option value="${tag}" selected>${tag}</option>`));
+
   document.querySelector("#submit").innerText = "UPDATE";
   document.querySelector("#title").value = user.title;
   document.querySelector("#country").value = user.country;
@@ -130,11 +124,11 @@ function sendUpdateRequest(configurationObject) {
   db.collection(memberType)
     .doc(user.doc_id)
     .set(configurationObject)
-    .then(function(docRef) {
+    .then(function (docRef) {
       showProgress("success");
       window.location = `../home/index.html?type=${memberType}`;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       showProgress("error", error);
     });
 }
@@ -145,11 +139,11 @@ function sendPostRequest(configurationObject) {
   modalInstance.open();
   db.collection(memberType)
     .add(configurationObject)
-    .then(function(docRef) {
+    .then(function (docRef) {
       showProgress("success");
       window.location = `../home/index.html?type=${memberType}`;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       showProgress("error", error);
     });
 }
@@ -159,13 +153,9 @@ async function submit() {
 
   const title = document.querySelector("#title").value;
   const description = document.querySelector("#description").value;
-  const country = M.FormSelect.init(
-    document.querySelector("#country")
-  ).getSelectedValues()[0];
+  const country = M.FormSelect.init(document.querySelector("#country")).getSelectedValues()[0];
   const city = document.querySelector("#city").value;
-  const tags = M.FormSelect.init(
-    document.querySelector("#tags")
-  ).getSelectedValues();
+  const tags = M.FormSelect.init(document.querySelector("#tags")).getSelectedValues();
   const start_time = document.querySelector("#start-hour").value;
   const end_time = document.querySelector("#end-hour").value;
   const githubLink = document.querySelector("#github-account").value;
@@ -193,7 +183,7 @@ async function submit() {
       user_email,
       user_name
     };
-    if (localStorage.getItem("changeForm") === "true") {
+    if (localStorage.getItem("updateForm") === "true") {
       sendUpdateRequest(configurationObject);
     } else {
       sendPostRequest(configurationObject);
