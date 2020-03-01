@@ -6,13 +6,6 @@ class FireBaseRequest {
   }
 }
 
-// class DeleteConfirmation {
-
-//     static renderConfirmModal() = {
-
-//     }
-// }
-
 class MembersView {
   static membersList = document.getElementById("membersList");
 
@@ -85,8 +78,8 @@ class MembersView {
                  <div class="modal-content">
                       <h4>${member.title}<span id='iconSpan'><i class="iconKaan penIcon hidden material-icons">mode_edit</i><i class="iconKaan trashIcon hidden fas fa-trash"></i></span></h4>
                       <div>
-                      <i class="material-icons iconMine red-text">location_on</i>
-                      <p id="location" class="location">${member.city}, ${member.country}</p>
+                          <i class="material-icons iconMine red-text">location_on</i>
+                          <p id="location" class="location">${member.city}, ${member.country}</p>
                       </div>
                       <h5>Description</h5>
                       <p> ${member.description}</p>
@@ -106,24 +99,20 @@ class MembersView {
 
     let trash = document.querySelector(".trashIcon");
 
-    trash.addEventListener("click", function() {
-      const deleteModal = document.getElementById("deleteConfirmModal");
-      const deleteModalInstance = M.Modal.init(deleteModal);
+    trash.addEventListener("click", function () {
       deleteModalInstance.open();
 
       let delBtn = document.getElementById("delBtn");
-      delBtn.addEventListener("click", function() {
-        const deleteAlertModal = document.getElementById("deleteAlertModal");
-        const deleteAlertInstance = M.Modal.init(deleteAlertModal);
-        deleteAlertInstance.open();
+      delBtn.addEventListener("click", function () {
 
         db.collection(memberType)
           .doc(member.doc_id)
           .delete()
-          .then(function(docRef) {
+          .then(function (docRef) {
+            deleteAlertInstance.open();
             window.location = `./index.html?type=${memberType}`;
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.error("Error adding document: ", error);
           });
       });
@@ -143,47 +132,33 @@ class MembersView {
           socialLinks["github"] = socialIcon.value;
           social.insertAdjacentHTML(
             "beforeend",
-            `<a href="${socialIcon.value}"><img class="socialIcons"
-                             src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`
+            `<a href="${socialIcon.value}"><img class="socialIcons" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt=""> </a>`
           );
         }
         if (socialIcon.type == "linkedin") {
           socialLinks["linkedin"] = socialIcon.value;
-
           social.insertAdjacentHTML(
             "beforeend",
-            `<a href="${socialIcon.value}"><img class="socialIcons"
-                             src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`
-          );
+            `<a href="${socialIcon.value}"><img class="socialIcons" src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt=""> </a>`);
         }
+
         if (socialIcon.type == "twitter") {
           socialLinks["twitter"] = socialIcon.value;
-
           social.insertAdjacentHTML(
-            "beforeend",
-            `<a href="${socialIcon.value}"><img class="socialIcons"
-                             src="https://pngimage.net/wp-content/uploads/2018/06/official-twitter-logo-png-3.png" alt=""> </a>`
-          );
+            "beforeend", `<a href="${socialIcon.value}"><img class="socialIcons" src="https://pngimage.net/wp-content/uploads/2018/06/official-twitter-logo-png-3.png" alt=""> </a>`);
         }
       }
     });
 
-    let socialIconsVisibility = document.querySelectorAll(
-      "#memberInfoModal > div > div.social > a"
-    );
+    let socialIconsVisibility = document.querySelectorAll("#memberInfoModal > div > div.social > a");
 
     if (Auth.isLoggedIn == false) {
       socialIconsVisibility.forEach(hideIcon => hideIcon.remove());
     }
 
-    social.insertAdjacentHTML(
-      "beforeend",
-      `<button class="loginBtn"  onclick="signInModalInstance.open();" >Login </button>`
-    );
+    social.insertAdjacentHTML("beforeend", `<button class="loginBtn"  onclick="signInModalInstance.open();" >Login </button>`);
 
-    let loginBtnVisibility = document.querySelector(
-      "#memberInfoModal > div > div.social > button"
-    );
+    let loginBtnVisibility = document.querySelector("#memberInfoModal > div > div.social > button");
 
     if (Auth.isLoggedIn == true) {
       loginBtnVisibility.remove();
@@ -240,7 +215,7 @@ function configureNavButtons() {
   const title = document.getElementById("page_title");
   title.innerText = memberType;
 
-  // If user click mentee gets data from mentees collection, for mentors gets from mentors db collection.
+  // make a func to set the texts
   if (memberType == "mentees") {
     memberRef = db.collection("mentees");
     pageTitle.innerText = "Mentees";
@@ -254,10 +229,6 @@ function configureNavButtons() {
     beMemberDropdown.innerHTML = "Be a Mentor";
     navMemberSelect.href = "index.html?type=mentees";
   }
-
-  beMember.forEach(btn => {
-    btn.addEventListener("click", () => Auth.openFormModal(memberType));
-  });
 
   let signInBtn = document.getElementById("signInBtn");
   signInBtn.addEventListener("click", () => Auth.sendToForm(memberType));
@@ -275,22 +246,23 @@ async function isMemberBefore(type) {
     .where("user_email", "==", user.email)
     .get()
     .then(querySnapshot => {
+      let beMember = document.querySelectorAll(".member-btn");
       if (querySnapshot.docs.length != 0) {
-        let beMember = document.querySelectorAll(".member-btn");
         beMember.forEach(btn => {
           btn.innerHTML = `My ${type.substring(0, type.length - 1)}`;
-          btn.removeEventListener("click", () =>
-            Auth.openFormModal(memberType)
+          // btn.removeEventListener("click", () => Auth.openFormModal(memberType));
+          btn.addEventListener("click", () => MembersView.showModal(
+            new Member(querySnapshot.docs[0].data(), querySnapshot.docs[0].id)
+          )
           );
-          btn.addEventListener("click", () =>
-            MembersView.showModal(
-              new Member(querySnapshot.docs[0].data(), querySnapshot.docs[0].id)
-            )
-          );
+        });
+      } else {
+        beMember.forEach(btn => {
+          btn.addEventListener("click", () => Auth.openFormModal(memberType));
         });
       }
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log("Error getting documents: ", error);
     });
 }

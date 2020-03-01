@@ -89,15 +89,19 @@
 
     <div id="deleteConfirmModal" class="modal">
         <div class="modal-content">
-            <a id="delBtn" class="waves-effect waves-light btn-large red">Delete</a>
-            <a href="#!" class="modal-close waves-effect waves-light btn-large red">Cancel</a> </div>
+            <h5>Are you sure you want to delete this?</h5>
+            <div class="modal-footer">
+                <a id="delBtn" class="waves-effect waves-light btn-large red">Delete</a>
+                <a href="#!" class="modal-close waves-effect waves-light btn-large red">Cancel</a>
+            </div>
+        </div>
 
     </div>
 
     <!-- Modal Structure For Deleted Alert-->
     <div id="deleteAlertModal" class="modal">
         <div class="modal-content">
-            <h4>Succesfully Deleted</h4>
+            <h5>Succesfully Deleted</h5>
         </div>
 
         <!-- Compiled and minified JavaScript -->
@@ -114,6 +118,13 @@
 
             const signOutModal = document.getElementById('signOutModal');
             const signOutModalInstance = M.Modal.init(signOutModal);
+
+            const deleteAlertModal = document.getElementById("deleteAlertModal");
+            const deleteAlertInstance = M.Modal.init(deleteAlertModal);
+
+            const deleteModal = document.getElementById("deleteConfirmModal");
+            const deleteModalInstance = M.Modal.init(deleteModal);
+
         </script>
 
 
