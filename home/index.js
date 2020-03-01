@@ -234,6 +234,10 @@ async function isMemberBefore(type) {
             )
             );
           });
+        } else {
+          beMember.forEach(btn => {
+            btn.addEventListener("click", () => Auth.openFormModal(memberType));
+          });
         }
       })
   } else {
