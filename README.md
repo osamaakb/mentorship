@@ -5,8 +5,8 @@ This website was developed by the students of the recoded bootcamp in Istanbul/T
 
 You can visit the website live [here](https://osamaakb.github.io/mentorship/)
 
-# What is Mentoship
-You can a Mentor/Mentee with the time that suits you and connect with them really easy
+# What is Mentoship?
+Small website that allows you to find a Mentor/Mentee with the time that suits you and connect with them really easy
 
 # Resources
 * HTML/CSS
